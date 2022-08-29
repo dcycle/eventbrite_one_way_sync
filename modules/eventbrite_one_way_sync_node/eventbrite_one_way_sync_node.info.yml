@@ -1,0 +1,9 @@
+---
+name: Eventbrite One-Way Sync Node
+type: module
+description: >-
+  Import Eventbrite events as nodes. See ./README.md.
+core_version_requirement: ^9
+php: '8.x'
+dependencies:
+  - eventbrite_one_way_sync:eventbrite_one_way_sync

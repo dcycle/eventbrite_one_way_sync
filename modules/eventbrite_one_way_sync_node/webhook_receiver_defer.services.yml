@@ -1,0 +1,11 @@
+---
+services:
+  eventbrite_one_way_sync_node.node_factory:
+    class: >-
+      Drupal\eventbrite_one_way_sync_node\EventNode\NodeFactory
+  eventbrite_one_way_sync_node:
+    class: >-
+      Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNode
+  eventbrite_one_way_sync_node.config:
+    class: >-
+      Drupal\eventbrite_one_way_sync_node\Config\Config

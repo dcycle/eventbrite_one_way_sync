@@ -1,0 +1,7 @@
+---
+mapping:
+  default:
+    node_type: NOT_SET
+    id_field: NOT_SET
+    struct_field: NOT_SET
+    date_field: NOT_SET

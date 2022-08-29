@@ -1,0 +1,29 @@
+---
+services:
+  eventbrite_one_way_sync.config:
+    class: >-
+      Drupal\eventbrite_one_way_sync\Config\Config
+  eventbrite_one_way_sync.smoke_test:
+    class: >-
+      Drupal\eventbrite_one_way_sync\SmokeTest\SmokeTest
+  eventbrite_one_way_sync:
+    class: >-
+      Drupal\eventbrite_one_way_sync\EventbriteOneWaySync
+  eventbrite_one_way_sync.processor_factory:
+    class: >-
+      Drupal\eventbrite_one_way_sync\Processor\ProcessorFactory
+  eventbrite_one_way_sync.node_manager:
+    class: >-
+      Drupal\eventbrite_one_way_sync\NodeManager\NodeManager
+  eventbrite_one_way_sync.requirements:
+    class: >-
+      Drupal\eventbrite_one_way_sync\Requirements\Requirements
+  eventbrite_one_way_sync.database:
+    class: >-
+      Drupal\eventbrite_one_way_sync\Database\Database
+  eventbrite_one_way_sync.plugins:
+    class: >-
+      Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginCollection
+  plugin.manager.eventbrite_one_way_sync:
+    class: Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginManager
+    parent: default_plugin_manager

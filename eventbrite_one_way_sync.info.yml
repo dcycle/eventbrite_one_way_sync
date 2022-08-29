@@ -1,0 +1,8 @@
+---
+name: Eventbrite One-Way Sync
+type: module
+description: Sync events from Eventbrite to Drupal.
+core_version_requirement: ^9
+php: '8.x'
+dependencies:
+  - webhook_receiver:webhook_receiver
