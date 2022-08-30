@@ -1,0 +1,21 @@
+uuid: c91afef9-b432-4bf9-8604-ba14242ba0ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_eventbrite_date
+    - node.type.event
+  module:
+    - datetime_range
+id: node.event.field_eventbrite_date
+field_name: field_eventbrite_date
+entity_type: node
+bundle: event
+label: field_eventbrite_date
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: daterange

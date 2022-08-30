@@ -23,7 +23,7 @@ class EventbriteOneWaySync implements EventbriteOneWaySyncInterface {
    * {@inheritdoc}
    */
   public function endToEndTest() {
-    $dummy_eventbrite_id = 'selftest';
+    $dummy_eventbrite_id = $this->config()->selfTestDummyAccount();
 
     $this->smokeTest()->run($dummy_eventbrite_id);
     $this->session($dummy_eventbrite_id)

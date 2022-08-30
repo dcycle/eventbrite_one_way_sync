@@ -49,7 +49,9 @@ abstract class SessionBase implements SessionInterface {
    * @return string
    *   An organization ID.
    */
-  abstract public function getOrganizationId() : string;
+  public function getOrganizationId() : string {
+    return $this->config()->getOrganizationId($this->eventbriteAccountLabel);
+  }
 
   /**
    * Get the private token associated with our Eventbrite account.
@@ -57,7 +59,9 @@ abstract class SessionBase implements SessionInterface {
    * @return string
    *   A private token.
    */
-  abstract public function getPrivateToken() : string;
+  public function getPrivateToken() : string {
+    return $this->config()->getPrivateToken($this->eventbriteAccountLabel);
+  }
 
   /**
    * {@inheritdoc}
@@ -65,9 +69,9 @@ abstract class SessionBase implements SessionInterface {
   public function smokeTest() {
     $result = $this->get('/users/me/');
 
-    foreach (['id', 'name'] as $eventbrite_account_label) {
-      if (!array_key_exists($eventbrite_account_label, $result)) {
-        throw new \Exception('The key ' . $eventbrite_account_label . ' does not exist in the response of the request, something might be wrong.');
+    foreach (['id', 'name'] as $required_key_in_response) {
+      if (!array_key_exists($required_key_in_response, $result)) {
+        throw new \Exception('The key ' . $required_key_in_response . ' does not exist in the response of the request, something might be wrong.');
       }
     }
 

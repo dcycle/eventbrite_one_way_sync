@@ -8,6 +8,14 @@ namespace Drupal\eventbrite_one_way_sync\Config;
 interface ConfigInterface {
 
   /**
+   * Get the name of a dummy self-test account.
+   *
+   * @return string
+   *   The name of a dummy self-test account.
+   */
+  public function selfTestDummyAccount() : string;
+
+  /**
    * Get all API keys from the settings.php file. See ./README.md.
    *
    * @return array

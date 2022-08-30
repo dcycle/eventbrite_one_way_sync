@@ -34,7 +34,7 @@ Initial setup: make sure you have an Eventbrite account and event
 * Create a node type, or use an existing node type (for example "event") with at least these fields:
   * A Text (plain) field (for example "field_eventbrite_id") to store the eventbrite event ID.
   * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct.
-  * A **multi-value** Date field (for example "field_eventbrite_date") to store the eventbrite dates.
+  * A **multi-value** Date Range field (for example "field_eventbrite_date") to store the eventbrite dates.
 * Create an event with more than one occurrence; and another event with only one occurrence (these are managed differently in Eventbrite, as we'll see later).
 * Make sure you have a website URL
 * Go to https://www.eventbrite.com/account-settings/apps and create an API key. Take note of the **private token**, it is the only information we'll use.

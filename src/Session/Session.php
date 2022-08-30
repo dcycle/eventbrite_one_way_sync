@@ -16,18 +16,4 @@ class Session extends SessionBase {
     return self::BASE_URL;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getOrganizationId() : string {
-    return $this->config()->getOrganizationId($this->eventbriteAccountLabel);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPrivateToken() : string {
-    return $this->config()->getPrivateToken($this->eventbriteAccountLabel);
-  }
-
 }

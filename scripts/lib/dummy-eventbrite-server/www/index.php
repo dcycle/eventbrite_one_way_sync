@@ -22,6 +22,10 @@ try {
       print(json_encode(organization_events()));
       break;
 
+    case 'users/me/';
+      print(json_encode(users_me()));
+      break;
+
     default:
       throw new \Exception('Sorry, this URL is not valid.');
   }
@@ -153,6 +157,24 @@ function events_page_2() : array {
       "is_series" => TRUE,
       "series_id" => "S1",
     ]
+  ];
+}
+
+function users_me() : array {
+  return [
+    "emails" => [
+      [
+        "email" => "dummy_account@example.com",
+        "verified" => false,
+        "primary" => true,
+      ],
+    ],
+    "id" => "12345",
+    "name" => "Dummy Account for Drupal Eventbrite One-Way Sync Module",
+    "first_name" => "Dummy",
+    "last_name" => "Account",
+    "is_public" => false,
+    "image_id" => "1234",
   ];
 }
 // @codingStandardsIgnoreEnd

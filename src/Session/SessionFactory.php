@@ -3,6 +3,7 @@
 namespace Drupal\eventbrite_one_way_sync\Session;
 
 use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
+use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 
 /**
  * Fetch a session by account label.
@@ -10,8 +11,7 @@ use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
 class SessionFactory implements SessionFactoryInterface {
 
   use CommonUtilities;
-
-  const SELFTEST_ACCOUNT = 'selftest';
+  use DependencyInjection;
 
   /**
    * {@inheritdoc}
@@ -19,7 +19,7 @@ class SessionFactory implements SessionFactoryInterface {
   public function get(string $eventbrite_account_label)  : SessionInterface {
     $this->assertNonEmptyString($eventbrite_account_label, 'Account label must be non-empty');
 
-    if ($eventbrite_account_label == self::SELFTEST_ACCOUNT) {
+    if ($eventbrite_account_label == $this->config()->selfTestDummyAccount()) {
       return new SelfTestSession($eventbrite_account_label);
     }
 

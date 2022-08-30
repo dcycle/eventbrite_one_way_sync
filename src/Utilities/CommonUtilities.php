@@ -7,6 +7,8 @@ namespace Drupal\eventbrite_one_way_sync\Utilities;
  */
 trait CommonUtilities {
 
+  use DependencyInjection;
+
   /**
    * Throw an exception if a string is not empty.
    *
@@ -31,7 +33,7 @@ trait CommonUtilities {
    *   A string representation of the \Throwable.
    */
   public function throwableToString(\Throwable $t) : string {
-    return $t->getMessage() . ' (' . $t->getFile() . ':' . $t->getLine() . ')';
+    return $t->getMessage() . ' (' . $t->getFile() . ':' . $t->getLine() . ', logged as ' . $this->errorLogger()->logThrowable($t) . ')';
   }
 
   /**
@@ -44,6 +46,20 @@ trait CommonUtilities {
    */
   public function assertNonEmptyArray($candidate, string $error_message) {
     if (!is_array($candidate) || !count($candidate)) {
+      throw new \Exception($error_message);
+    }
+  }
+
+  /**
+   * Throw an exception if a value is not an array.
+   *
+   * @param mixed $candidate
+   *   A string which cannot be empty.
+   * @param string $error_message
+   *   An error message.
+   */
+  public function assertArray($candidate, string $error_message) {
+    if (!is_array($candidate)) {
       throw new \Exception($error_message);
     }
   }

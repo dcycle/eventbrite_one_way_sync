@@ -7,3 +7,4 @@ core_version_requirement: ^9
 php: '8.x'
 dependencies:
   - eventbrite_one_way_sync:eventbrite_one_way_sync
+  - drupal:datetime_range

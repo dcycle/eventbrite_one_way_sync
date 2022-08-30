@@ -1,0 +1,36 @@
+uuid: 150a4953-68e1-4d69-b2ff-58df8213dcea
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.event.body
+    - field.field.node.event.field_eventbrite_date
+    - field.field.node.event.field_eventbrite_id
+    - field.field.node.event.field_eventbrite_struct
+    - node.type.event
+  module:
+    - text
+    - user
+id: node.event.teaser
+targetEntityType: node
+bundle: event
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_eventbrite_date: true
+  field_eventbrite_id: true
+  field_eventbrite_struct: true
