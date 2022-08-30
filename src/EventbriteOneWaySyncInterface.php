@@ -20,11 +20,4 @@ interface EventbriteOneWaySyncInterface {
    */
   public function session(string $eventbrite_account_label) : SessionInterface;
 
-  /**
-   * Run end-to-end tests meant be run in the context of continuous integration.
-   *
-   * See ./scripts/test-running-environment.sh.
-   */
-  public function endToEndTest();
-
 }

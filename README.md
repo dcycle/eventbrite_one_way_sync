@@ -22,7 +22,7 @@ Have Eventbrite push events to Drupal when they change, via Webhooks
 
 Connecting via webhooks is optional.
 
-This uses the [Webhook Receiver](https://www.drupal.org/project/webhook_receiver) module.
+This uses the [Webhook Receiver](https://www.drupal.org/project/eventbrite_one_way_sync) module.
 
 This requires a running, publicly-accessible Drupal site running on standard port. (At the time of this writing, Eventbrite will fail if it tries to access Webhooks that look like example.com:1234 that use a nonstandard port number.)
 

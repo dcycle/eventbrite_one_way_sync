@@ -65,7 +65,8 @@ function organization_events() : array {
       'has_more_items' => get('page') == 2 ? FALSE : TRUE,
       'page_size' => get('page') == 2 ? 1 : 3,
       'object_count' => 4,
-      'page_count' => get('page'),
+      'page_count' => 2,
+      'page_number' => get('page'),
     ],
     'events' => get('page') == 2 ? events_page_2() : events_page_1(),
   ];

@@ -19,15 +19,4 @@ class EventbriteOneWaySync implements EventbriteOneWaySyncInterface {
     return $this->sessionFactory()->get($eventbrite_account_label);
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function endToEndTest() {
-    $dummy_eventbrite_id = $this->config()->selfTestDummyAccount();
-
-    $this->smokeTest()->run($dummy_eventbrite_id);
-    $this->session($dummy_eventbrite_id)
-      ->importExistingToQueue();
-  }
-
 }

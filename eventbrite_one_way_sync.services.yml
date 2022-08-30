@@ -12,9 +12,9 @@ services:
   eventbrite_one_way_sync.processor_factory:
     class: >-
       Drupal\eventbrite_one_way_sync\Processor\ProcessorFactory
-  eventbrite_one_way_sync.node_manager:
+  eventbrite_one_way_sync.end_to_end_test:
     class: >-
-      Drupal\eventbrite_one_way_sync\NodeManager\NodeManager
+      Drupal\eventbrite_one_way_sync\SelfTest\EndToEndTest
   eventbrite_one_way_sync.requirements:
     class: >-
       Drupal\eventbrite_one_way_sync\Requirements\Requirements

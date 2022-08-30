@@ -17,6 +17,7 @@ use Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface;
 // Webhook Receiver is a dependency of this module, so we'll use this nify
 // utility from there to log errors and give them a UUID.
 use Drupal\webhook_receiver\WebhookReceiverActivityLog\WebhookReceiverActivityLogInterface;
+use Drupal\eventbrite_one_way_sync\SelfTest\EndToEndTestInterface;
 
 /**
  * I like using a trait rather than services arguments which I find messy.
@@ -41,6 +42,16 @@ trait DependencyInjection {
    */
   public function errorLogger() : WebhookReceiverActivityLogInterface {
     return \Drupal::service('webhook_receiver.activity_logger');
+  }
+
+  /**
+   * Get end-to-end test service.
+   *
+   * @return \Drupal\eventbrite_one_way_sync\SelfTest\EndToEndTestInterface
+   *   End-to-end test service.
+   */
+  public function endToEndTest() : EndToEndTestInterface {
+    return \Drupal::service('eventbrite_one_way_sync.end_to_end_test');
   }
 
   /**
