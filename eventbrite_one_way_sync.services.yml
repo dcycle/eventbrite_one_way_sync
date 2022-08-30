@@ -18,6 +18,9 @@ services:
   eventbrite_one_way_sync.requirements:
     class: >-
       Drupal\eventbrite_one_way_sync\Requirements\Requirements
+  eventbrite_one_way_sync.session_factory:
+    class: >-
+      Drupal\eventbrite_one_way_sync\Session\SessionFactory
   eventbrite_one_way_sync.database:
     class: >-
       Drupal\eventbrite_one_way_sync\Database\Database

@@ -13,6 +13,7 @@ use Drupal\eventbrite_one_way_sync\Database\DatabaseInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginCollection;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginManager;
+use Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface;
 
 /**
  * I like using a trait rather than services arguments which I find messy.
@@ -47,6 +48,16 @@ trait DependencyInjection {
    */
   public function configFactory() : ConfigFactoryInterface {
     return \Drupal::service('config.factory');
+  }
+
+  /**
+   * Get the session factory service.
+   *
+   * @return \Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface
+   *   The session factory.
+   */
+  public function sessionFactory() : SessionFactoryInterface {
+    return \Drupal::service('eventbrite_one_way_sync.session_factory');
   }
 
   /**

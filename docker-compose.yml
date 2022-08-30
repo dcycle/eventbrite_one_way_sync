@@ -21,6 +21,16 @@ services:
       MYSQL_ROOT_PASSWORD: drupal
       MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
 
+  dummy_server:
+    build:
+      context: .
+      dockerfile: ./scripts/lib/dummy-eventbrite-server/Dockerfile
+    ports:
+      - "80"
+    volumes:
+      - "./scripts/lib/dummy-eventbrite-server/www:/var/www/html/"
+      - "./scripts/lib/dummy-eventbrite-server/mod_rewrite.conf:/etc/apache2/sites-enabled/mod_rewrite.conf"
+
 # Specifying the network name makes it predictable on all environments,
 # for example when we run browser tests.
 # See https://github.com/docker/compose/issues/3736.

@@ -27,12 +27,14 @@ if [[ "$OUTPUT" == *"ERROR"* ]]; then
   exit 1
 fi
 
-drush si -y --db-url "mysql://root:drupal@mysql/drupal"
+cd /var/www/html
 
 echo "Fetch dependencies."
 composer require drupal/webhook_receiver
 
+drush si -y --db-url "mysql://root:drupal@mysql/drupal"
+
 echo "Enable our module."
-drush en -y eventbrite_one_way_sync
+drush en -y eventbrite_one_way_sync_node
 
 echo "Deployment done on our container."

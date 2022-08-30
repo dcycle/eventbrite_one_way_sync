@@ -51,9 +51,9 @@ Initial setup: make sure you have an Eventbrite account and event
       ],
     ];
 
-* Tell this Drupal what your node type and fields are:
+* Tell Drupal what your node type and fields are:
 
-    eventbrite_one_way_sync()->config()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');
+    eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');
 
 Smoke-test your configuration
 -----

@@ -43,10 +43,6 @@ function eventbrite_one_way_sync_schema() {
       ],
     ],
     'primary key' => ['eid'],
-    'unique keys' => [
-      'eid' => ['eid'],
-      'occurrence_id' => ['occurrence_id'],
-    ],
     'indexes' => [
       'remote_id' => ['remote_id'],
       'occurrence_id' => ['occurrence_id'],

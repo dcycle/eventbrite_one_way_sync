@@ -5,9 +5,13 @@ namespace Drupal\eventbrite_one_way_sync\Session;
 /**
  * A session is associated with a single key.
  */
-class Session extends SessionBase {
+class SelfTestSession extends SessionBase {
 
-  const BASE_URL = 'https://www.eventbriteapi.com/v3';
+  // This is spun up in ./docker-compose.yml during continuous integration
+  // testing.
+  const BASE_URL = 'http://dummy_server';
+  const ORGANIZATION_ID = 'MY_ORGANIZATION';
+  const PRIVATE_TOKEN = 'MY_TOKEN';
 
   /**
    * {@inheritdoc}
@@ -20,14 +24,14 @@ class Session extends SessionBase {
    * {@inheritdoc}
    */
   public function getOrganizationId() : string {
-    return $this->config()->getOrganizationId($this->eventbriteAccountLabel);
+    return self::ORGANIZATION_ID;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getPrivateToken() : string {
-    return $this->config()->getPrivateToken($this->eventbriteAccountLabel);
+    return self::PRIVATE_TOKEN;
   }
 
 }
