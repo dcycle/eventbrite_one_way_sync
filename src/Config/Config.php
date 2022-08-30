@@ -18,12 +18,24 @@ class Config implements ConfigInterface {
   /**
    * {@inheritdoc}
    */
+  public function selfTestDummyAccount() : string {
+    return 'selftest';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function allApiKeys() : array {
     $candidate = $this->configFactory()
       ->get('eventbrite_one_way_sync.unversioned')
-      ->get('api-keys');
+      ->get('api-keys') ?: [];
 
-    $this->assertNonEmptyArray($candidate, "The API keys in your settings.php file should be a non-empty array, please see eventbrite_one_way_sync's ./README.md file.");
+    $candidate[$this->selfTestDummyAccount()] = [
+      'private_token' => 'MY_TOKEN',
+      'organization_id' => 'MY_ORGANIZATION',
+    ];
+
+    $this->assertNonEmptyArray($candidate, "The API keys in your settings.php file should be an array, please see eventbrite_one_way_sync's ./README.md file.");
 
     return $candidate;
   }

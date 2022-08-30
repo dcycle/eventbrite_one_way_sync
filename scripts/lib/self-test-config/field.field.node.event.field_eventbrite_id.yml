@@ -1,0 +1,19 @@
+uuid: 88b0e428-8acc-475f-9051-4ec280e735a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_eventbrite_id
+    - node.type.event
+id: node.event.field_eventbrite_id
+field_name: field_eventbrite_id
+entity_type: node
+bundle: event
+label: field_eventbrite_id
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

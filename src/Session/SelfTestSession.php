@@ -5,9 +5,11 @@ namespace Drupal\eventbrite_one_way_sync\Session;
 /**
  * A session is associated with a single key.
  */
-class Session extends SessionBase {
+class SelfTestSession extends SessionBase {
 
-  const BASE_URL = 'https://www.eventbriteapi.com/v3';
+  // This is spun up in ./docker-compose.yml during continuous integration
+  // testing.
+  const BASE_URL = 'http://dummy_server';
 
   /**
    * {@inheritdoc}

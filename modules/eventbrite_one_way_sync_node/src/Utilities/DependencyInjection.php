@@ -2,7 +2,7 @@
 
 namespace Drupal\eventbrite_one_way_sync_node\Utilities;
 
-use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
+use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection as BaseDependencyInjection;
 use Drupal\eventbrite_one_way_sync_node\EventNode\NodeFactoryInterface;
 use Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface;
 use Drupal\eventbrite_one_way_sync_node\Config\ConfigInterface;
@@ -12,7 +12,7 @@ use Drupal\eventbrite_one_way_sync_node\Config\ConfigInterface;
  */
 trait DependencyInjection {
 
-  use DependencyInjection;
+  use BaseDependencyInjection;
 
   /**
    * Get the node factory service.
@@ -41,7 +41,7 @@ trait DependencyInjection {
    *   The module service.
    */
   public function eventbriteOneWaySyncNode() : EventbriteOneWaySyncNodeInterface {
-    return \Drupal::service('eventbrite_one_way_sync_node.node_factory');
+    return \Drupal::service('eventbrite_one_way_sync_node');
   }
 
 }

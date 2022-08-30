@@ -22,7 +22,7 @@ Have Eventbrite push events to Drupal when they change, via Webhooks
 
 Connecting via webhooks is optional.
 
-This uses the [Webhook Receiver](https://www.drupal.org/project/webhook_receiver) module.
+This uses the [Webhook Receiver](https://www.drupal.org/project/eventbrite_one_way_sync) module.
 
 This requires a running, publicly-accessible Drupal site running on standard port. (At the time of this writing, Eventbrite will fail if it tries to access Webhooks that look like example.com:1234 that use a nonstandard port number.)
 
@@ -34,7 +34,7 @@ Initial setup: make sure you have an Eventbrite account and event
 * Create a node type, or use an existing node type (for example "event") with at least these fields:
   * A Text (plain) field (for example "field_eventbrite_id") to store the eventbrite event ID.
   * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct.
-  * A **multi-value** Date field (for example "field_eventbrite_date") to store the eventbrite dates.
+  * A **multi-value** Date Range field (for example "field_eventbrite_date") to store the eventbrite dates.
 * Create an event with more than one occurrence; and another event with only one occurrence (these are managed differently in Eventbrite, as we'll see later).
 * Make sure you have a website URL
 * Go to https://www.eventbrite.com/account-settings/apps and create an API key. Take note of the **private token**, it is the only information we'll use.
@@ -51,9 +51,9 @@ Initial setup: make sure you have an Eventbrite account and event
       ],
     ];
 
-* Tell this Drupal what your node type and fields are:
+* Tell Drupal what your node type and fields are:
 
-    eventbrite_one_way_sync()->config()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');
+    eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');
 
 Smoke-test your configuration
 -----

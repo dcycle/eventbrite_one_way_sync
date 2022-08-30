@@ -39,6 +39,9 @@ class Database implements DatabaseInterface {
    */
   public function exists(string $remote_id, string $occurrence_id) : bool {
     $query = $this->connection()->select(self::TABLE, self::TABLE);
+    $query->fields(self::TABLE, [
+      'remote_id' => 'remote_id',
+    ]);
     $query->condition('remote_id', $remote_id);
     $query->condition('occurrence_id', $occurrence_id);
     $query->range(0, 1);

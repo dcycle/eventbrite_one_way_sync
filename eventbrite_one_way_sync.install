@@ -43,10 +43,6 @@ function eventbrite_one_way_sync_schema() {
       ],
     ],
     'primary key' => ['eid'],
-    'unique keys' => [
-      'eid' => ['eid'],
-      'occurrence_id' => ['occurrence_id'],
-    ],
     'indexes' => [
       'remote_id' => ['remote_id'],
       'occurrence_id' => ['occurrence_id'],
@@ -61,11 +57,12 @@ function eventbrite_one_way_sync_schema() {
  */
 function eventbrite_one_way_sync_requirements(string $phase) : array {
   // Make sure the phase is runtime, otherwise (during installation for
-  // example) the webhook_receiver.requirements service will not be available.
+  // example) the eventbrite_one_way_sync.requirements service will not be
+  // available.
   if ($phase != 'runtime') {
     // If ther are any non-runtime requirements, we do not have access
-    // to the webhook_receiver.requirements, so we would define them here.
-    // (There are none at the time of this writing.)
+    // to the eventbrite_one_way_sync.requirements, so we would define them
+    // here. (There are none at the time of this writing.)
     return [];
   }
   return \Drupal::service('eventbrite_one_way_sync.requirements')

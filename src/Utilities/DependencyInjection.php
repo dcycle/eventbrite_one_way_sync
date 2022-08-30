@@ -13,6 +13,11 @@ use Drupal\eventbrite_one_way_sync\Database\DatabaseInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginCollection;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginManager;
+use Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface;
+// Webhook Receiver is a dependency of this module, so we'll use this nify
+// utility from there to log errors and give them a UUID.
+use Drupal\webhook_receiver\WebhookReceiverActivityLog\WebhookReceiverActivityLogInterface;
+use Drupal\eventbrite_one_way_sync\SelfTest\EndToEndTestInterface;
 
 /**
  * I like using a trait rather than services arguments which I find messy.
@@ -27,6 +32,26 @@ trait DependencyInjection {
    */
   public function plugins() : EventbriteOneWaySyncPluginCollection {
     return \Drupal::service('eventbrite_one_way_sync.plugins');
+  }
+
+  /**
+   * Get service from webhook_receiver to log \Throwables and give them a uuid.
+   *
+   * @return \Drupal\webhook_receiver\WebhookReceiverActivityLog\WebhookReceiverActivityLogInterface
+   *   The logging plugin.
+   */
+  public function errorLogger() : WebhookReceiverActivityLogInterface {
+    return \Drupal::service('webhook_receiver.activity_logger');
+  }
+
+  /**
+   * Get end-to-end test service.
+   *
+   * @return \Drupal\eventbrite_one_way_sync\SelfTest\EndToEndTestInterface
+   *   End-to-end test service.
+   */
+  public function endToEndTest() : EndToEndTestInterface {
+    return \Drupal::service('eventbrite_one_way_sync.end_to_end_test');
   }
 
   /**
@@ -47,6 +72,16 @@ trait DependencyInjection {
    */
   public function configFactory() : ConfigFactoryInterface {
     return \Drupal::service('config.factory');
+  }
+
+  /**
+   * Get the session factory service.
+   *
+   * @return \Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface
+   *   The session factory.
+   */
+  public function sessionFactory() : SessionFactoryInterface {
+    return \Drupal::service('eventbrite_one_way_sync.session_factory');
   }
 
   /**

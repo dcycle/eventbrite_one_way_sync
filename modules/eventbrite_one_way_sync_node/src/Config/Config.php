@@ -82,6 +82,15 @@ class Config extends BaseConfig implements ConfigInterface {
   public function checkNodeTypeAndFields(string $eventbrite_account_label, string $node_type = '', string $eventbrite_id_field = '', string $eventbrite_struct_field = '', $eventbrite_date_field = '') {
     $this->assertNonEmptyString($eventbrite_account_label, 'Label cannot be empty, it should be something like "default"');
 
+    if (!$node_type) {
+      $field_map = $this->fieldMap($eventbrite_account_label);
+
+      $node_type = $field_map['node_type'];
+      $eventbrite_id_field = $field_map['id_field'];
+      $eventbrite_struct_field = $field_map['struct_field'];
+      $eventbrite_date_field = $field_map['date_field'];
+    }
+
     foreach ([
       'Node type' => [
         'var' => $node_type,
@@ -143,7 +152,15 @@ class Config extends BaseConfig implements ConfigInterface {
   public function getFieldMapping() : array {
     $candidate = $this->configFactory()
       ->get('eventbrite_one_way_sync.versioned')
-      ->get('mapping');
+      ->get('mapping') ?: [];
+
+    // For automated testing.
+    $candidate[$this->selfTestDummyAccount()] = [
+      'node_type' => 'event',
+      'id_field' => 'field_eventbrite_id',
+      'struct_field' => 'field_eventbrite_struct',
+      'date_field' => 'field_eventbrite_date',
+    ];
 
     $this->assertNonEmptyArray($candidate, 'The mapping in configuration (eventbrite_one_way_sync.versioned mapping) should be a non-empty array. If it is empty, this module will not do anything.');
 
