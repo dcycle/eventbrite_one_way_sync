@@ -20,4 +20,17 @@ interface EventbriteOneWaySyncInterface {
    */
   public function session(string $eventbrite_account_label) : SessionInterface;
 
+  /**
+   * Testable implementation of hook_cron().
+   */
+  public function hookCron();
+
+  /**
+   * Process a single event from the queue, if possible.
+   *
+   * @return bool
+   *   TRUE if there are still items to process.
+   */
+  public function processNext() : bool;
+
 }

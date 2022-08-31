@@ -8,7 +8,7 @@ use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 /**
  * Abstraction around a collection of plugins.
  */
-class EventbriteOneWaySyncPluginCollection implements EventbriteOneWaySyncPluginInterface {
+class EventbriteOneWaySyncPluginCollection implements EventbriteOneWaySyncPluginInterface, \Countable {
 
   use DependencyInjection;
 
@@ -35,6 +35,13 @@ class EventbriteOneWaySyncPluginCollection implements EventbriteOneWaySyncPlugin
     }
 
     return $return;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function count() {
+    return count($this->pluginDefinitions());
   }
 
   /**

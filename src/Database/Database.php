@@ -4,6 +4,7 @@ namespace Drupal\eventbrite_one_way_sync\Database;
 
 use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 use Drupal\Component\Serialization\Json;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
 
 /**
  * Represents this module's database.
@@ -86,6 +87,53 @@ class Database implements DatabaseInterface {
         'struct' => Json::encode($struct),
       ])
       ->execute();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function nextEvent() : EventbriteEventInterface {
+    return $this->eventFactory()->fromRemoteId($this->nextRemoteId());
+  }
+
+  /**
+   * Get the next remote id in the queue, if possible.
+   *
+   * @return string
+   *   An empty string, or the next remote ID in the system, for example
+   *   "selftest:series:S1".
+   */
+  public function nextRemoteId() : string {
+    $query = $this->connection()->select(self::TABLE, self::TABLE);
+    $query->fields(self::TABLE, [
+      'remote_id' => 'remote_id',
+    ]);
+    $query->condition('status', 'new');
+    $query->range(0, 1);
+    $result = $query->execute()->fetchAll();
+
+    if (!count($result)) {
+      return '';
+    }
+
+    return $result[0]->remote_id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRemoteId(string $remote_id) : array {
+    $query = $this->connection()->select(self::TABLE, self::TABLE);
+    $query->fields(self::TABLE, [
+      'remote_id' => 'remote_id',
+      'occurrence_id' => 'occurrence_id',
+      'struct' => 'struct',
+      'status' => 'status',
+    ]);
+    $query->condition('remote_id', $remote_id);
+    $query->condition('status', 'new');
+    $result = $query->execute()->fetchAll();
+    return $result;
   }
 
   /**

@@ -51,21 +51,30 @@ class EventbriteEvent implements EventbriteEventInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Get a remote ID such as default:event:123 or default:series:123.
+   *
+   * @return string
+   *   A remote ID such as default:event:123 or default:series:123.
    */
   public function remoteId() : string {
     return $this->remoteId;
   }
 
   /**
-   * {@inheritdoc}
+   * Get the Eventbrite title.
+   *
+   * @return string
+   *   The Eventbrite title.
    */
   public function getTitle() : string {
     return 'THIS SHOULD BE MODIFIED';
   }
 
   /**
-   * {@inheritdoc}
+   * Get the Eventbrite account label.
+   *
+   * @return string
+   *   The Eventbrite account label such as default.
    */
   public function eventbriteAccountLabel() : string {
     return $this->eventbriteAccountLabel;
