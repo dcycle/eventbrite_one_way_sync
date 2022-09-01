@@ -10,31 +10,20 @@ No GUI
 
 This module does not come with a graphical user interface.
 
-You will need to set up your private token by adding lines in your Drupal site's `settings.php` as described below.
-
-You will need to use a `drush` command to tell this module which node type to use for your new events. This, too is described below.
-
-If you have Eventbrite events that pre-exist the installation of this module, you can import them using a `drush` command as described below.
-
-This module obtains Eventbrite events in two ways, and we will demonstrate below how each works.
+To use this module you need to be comfortable editing your Drupal site's `settings.php` file, and use `drush` on the command line.
 
 Initial setup: make sure you have an Eventbrite account
 -----
 
 * Make sure you have an Eventbrite account.
 * Make sure you have a running Drupal site with this module enabled.
-* Make sure you are comfortable using `drush` on the command line, and editing your `settings.php`.
-* Create a node type, or use an existing node type (for example "event") with at least these fields:
-  * A Text (plain) field (for example "field_eventbrite_id") to store the eventbrite event ID.
-  * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct.
-  * A **multi-value** Date Range field (for example "field_eventbrite_date") to store the eventbrite dates.
-* Make sure your website is publicly accessible on a domain which does not have a non-standard port (at the time of this writing, example.com is fine, but example.com:1234 causes errors Eventbrite) for Eventbrite to inform your website, through webhooks, when events are created or updated.
+* Make sure your website is publicly accessible using a standard port (at the time of this writing, example.com is fine, but example.com:1234 causes errors Eventbrite) for Eventbrite to inform your website, through webhooks, when events are created or updated.
 * Go to https://www.eventbrite.com/account-settings/apps and create an API key. Take note of the **private token**, it is the only information we'll use.
 * You will need your organization number, which you can find by visiting the following URL.
 
     https://www.eventbriteapi.com/v3/users/me/organizations/?token=PUT_YOUR_PRIVATE_TOKEN_HERE
 
-* Edit your site's ./sites/default/settings.php and add the following:
+* Edit your site's ./sites/default/settings.php and add the following (see also the "security" section, below):
 
     $config['eventbrite_one_way_sync.unversioned']['api-keys'] = [
       'default' => [
@@ -42,6 +31,31 @@ Initial setup: make sure you have an Eventbrite account
         'organization_id' => '123456789',
       ],
     ];
+
+* Create a node type, or use an existing node type (for example "event") with at least these fields:
+  * A Text (plain) field (for example "field_eventbrite_id") to store the eventbrite event ID.
+  * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct.
+  * A **multi-value** Date Range field (for example "field_eventbrite_date") to store the eventbrite dates.
+
+* Tell Drupal what your node type and fields are:
+
+    drush ev "eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');"
+
+* You can now smoke-test your installation by running the following command:
+
+    drush ev "eventbrite_one_way_sync()->smokeTest()->run(eventbrite_account_label: 'default');"
+
+If you are getting errors, please make sure your private token is correct.
+
+
+
+
+* Make sure you are comfortable using `drush` on the command line, and editing your `settings.php`.
+* Go to https://www.eventbrite.com/account-settings/apps and create an API key. Take note of the **private token**, it is the only information we'll use.
+* You will need your organization number, which you can find by visiting the following URL.
+
+    https://www.eventbriteapi.com/v3/users/me/organizations/?token=PUT_YOUR_PRIVATE_TOKEN_HERE
+
 
 * Tell Drupal what your node type and fields are:
 
@@ -399,3 +413,13 @@ The base module (eventbrite_one_way_sync) keeps of a queue of events to process 
 | default:series:234 | default:event:456 | (json) |
 
 These are actually two events (default:event:123 and default:series:234) with four total occurrences (default:event:123, default:event:234, default:event:345, default:event:456).
+
+Multiple accounts or organizations
+-----
+
+aaa
+
+Security
+-----
+
+aaa

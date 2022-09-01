@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Runtime hooks.
+ */
+
+use Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface;
+
+/**
+ * Quick access to the eventbrite_one_way_sync_node service.
+ *
+ * @return \Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface
+ *   The EventbriteOneWaySyncNode service.
+ */
+// @codingStandardsIgnoreStart
+// PHP Lint wants this to be prefixed with the module name, but it _is_
+// the same as the module name, so I consider this ok.
+function eventbrite_one_way_sync_node() : EventbriteOneWaySyncNodeInterface {
+// @codingStandardsIgnoreEnd
+  return \Drupal::service('eventbrite_one_way_sync_node');
+}
