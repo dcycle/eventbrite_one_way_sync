@@ -2,7 +2,7 @@
 
 namespace Drupal\eventbrite_one_way_sync;
 
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 
 /**
@@ -106,7 +106,7 @@ class EventbriteOneWaySyncPluginCollection implements EventbriteOneWaySyncPlugin
   /**
    * {@inheritdoc}
    */
-  public function process(EventbriteEventInterface $event) {
+  public function process(EventbriteEventValidInterface $event) {
     foreach ($this->plugins() as $plugin) {
       $plugin->process($event);
     }

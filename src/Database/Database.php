@@ -125,10 +125,8 @@ class Database implements DatabaseInterface {
   public function getRemoteId(string $remote_id) : array {
     $query = $this->connection()->select(self::TABLE, self::TABLE);
     $query->fields(self::TABLE, [
-      'remote_id' => 'remote_id',
       'occurrence_id' => 'occurrence_id',
       'struct' => 'struct',
-      'status' => 'status',
     ]);
     $query->condition('remote_id', $remote_id);
     $query->condition('status', 'new');

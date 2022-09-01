@@ -22,7 +22,7 @@ interface DatabaseInterface {
   public function update(string $remote_id, string $occurrence_id, array $struct);
 
   /**
-   * Get All information for a remote ID
+   * Get All information for a remote ID.
    *
    * @param string $remote_id
    *   A remote ID such as default:series:123.

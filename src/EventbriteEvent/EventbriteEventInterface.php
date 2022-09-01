@@ -8,8 +8,11 @@ namespace Drupal\eventbrite_one_way_sync\EventbriteEvent;
 interface EventbriteEventInterface {
 
   /**
-   * Remove this event from the processing queue.
+   * Process an event and determine whether to continue or stop all processing.
+   *
+   * @return bool
+   *   TRUE if processing should continue.
    */
-  public function removeFromQueue();
+  public function process() : bool;
 
 }

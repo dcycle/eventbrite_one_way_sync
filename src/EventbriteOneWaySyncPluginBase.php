@@ -2,7 +2,7 @@
 
 namespace Drupal\eventbrite_one_way_sync;
 
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 use Drupal\Component\Plugin\PluginBase;
 
 /**
@@ -16,7 +16,7 @@ abstract class EventbriteOneWaySyncPluginBase extends PluginBase implements Even
   /**
    * {@inheritdoc}
    */
-  public function process(EventbriteEventInterface $event) {
+  public function process(EventbriteEventValidInterface $event) {
     // Do nothing.
   }
 

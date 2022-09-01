@@ -3,7 +3,7 @@
 namespace Drupal\eventbrite_one_way_sync_node\EventNode;
 
 use Drupal\node\NodeInterface;
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 
 /**
  * An Event node.
@@ -20,7 +20,7 @@ class EventNode implements EventNodeInterface {
   /**
    * The Eventbrite event.
    *
-   * @var \Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface
+   * @var \Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface
    */
   protected $event;
 
@@ -29,10 +29,10 @@ class EventNode implements EventNodeInterface {
    *
    * @param \Drupal\node\NodeInterface $node
    *   The Drupal node.
-   * @param \Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface $event
+   * @param \Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface $event
    *   The Eventbrite event.
    */
-  public function __construct(NodeInterface $node, EventbriteEventInterface $event) {
+  public function __construct(NodeInterface $node, EventbriteEventValidInterface $event) {
     $this->node = $node;
     $this->event = $event;
   }
