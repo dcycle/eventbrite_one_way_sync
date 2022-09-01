@@ -44,7 +44,7 @@ class Config implements ConfigInterface {
    * {@inheritdoc}
    */
   public function getPrivateToken(string $eventbrite_account_label) : string {
-    return $this->apiInfo($eventbrite_account_label, 'private_token');
+    return trim($this->apiInfo($eventbrite_account_label, 'private_token'));
   }
 
   /**
