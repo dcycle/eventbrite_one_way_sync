@@ -40,8 +40,9 @@ class EventNode implements EventNodeInterface {
   /**
    * {@inheritdoc}
    */
-  public function syncWithEventbriteEvent() {
+  public function syncWithEventbriteEvent() : EventNodeInterface {
     $this->node->setTitle($this->event->getTitle());
+    return $this;
   }
 
   /**

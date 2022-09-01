@@ -56,7 +56,7 @@ class EventbriteEventValid extends EventbriteEventInQueue implements EventbriteE
    *   The decoded result.
    */
   public function struct(int $id = 0) : array {
-    return JSON::decode($this->result[$id]);
+    return JSON::decode($this->result[$id]->struct);
   }
 
   /**
