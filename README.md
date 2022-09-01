@@ -77,6 +77,8 @@ In Eventbrite, go to https://www.eventbrite.com/account-settings/webhooks and ad
 
     http://example.com/webhook-receiver/eventbrite_one_way_sync/SOME_SECURITY_TOKEN?eventbrite_account_label=default
 
+**You cannot use a non-standard port at the time of this writing; Eventbrite will always fail with a 408 timeout if you do: example.com or 1.2.3.4 is OK, but not example.com:1234, or 1.2.3.4:1234.**
+
 In Events, choose "All Events".
 
 In Actions, select:
@@ -91,7 +93,11 @@ Save your webhook by clicking Add Webhook
 Step 6: test your webhook
 -----
 
-Click the "Test" button Eventbrite.
+On the Eventbrite page with your webhook, click the "Test" button Eventbrite.
+
+**Wait 30 seconds**.
+
+Reload the Eventbrite page with your webhook to see the test result.
 
 
 

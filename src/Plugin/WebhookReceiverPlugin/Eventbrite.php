@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\webhook_receiver_example\Plugin\WebhookReceiverPlugin;
+namespace Drupal\eventbrite_one_way_sync\Plugin\WebhookReceiverPlugin;
 
 use Drupal\webhook_receiver\WebhookReceiverPluginBase;
 use Drupal\webhook_receiver\WebhookReceiverLog\WebhookReceiverLogInterface;
