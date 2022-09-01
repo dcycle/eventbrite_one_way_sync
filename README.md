@@ -12,7 +12,9 @@ This module does not come with a graphical user interface.
 
 To use this module you need to be comfortable editing your Drupal site's `settings.php` file, and use `drush` on the command line.
 
-Initial setup, step 1: make sure you have an Eventbrite account, website, and token
+Here is how to set this up:
+
+Step 1: make sure you have an Eventbrite account, website, and token
 -----
 
 * Make sure you have an Eventbrite account.
@@ -23,7 +25,7 @@ Initial setup, step 1: make sure you have an Eventbrite account, website, and to
 
     https://www.eventbriteapi.com/v3/users/me/organizations/?token=PUT_YOUR_PRIVATE_TOKEN_HERE
 
-Initial setup, step 2: configure this module to use your Eventbrite token
+Step 2: configure this module to use your Eventbrite token
 -----
 
 * Edit your site's ./sites/default/settings.php and add the following (this is not meant to be in version control; see also the "security" section, below):
@@ -35,7 +37,7 @@ Initial setup, step 2: configure this module to use your Eventbrite token
       ],
     ];
 
-Initial setup, step 3: tell this module which node type and fields to use
+Step 3: tell this module which node type and fields to use
 -----
 
 * Create a node type, or use an existing node type (for example "event") with at least these fields:
@@ -47,7 +49,7 @@ Initial setup, step 3: tell this module which node type and fields to use
 
     drush ev "eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');"
 
-Initial setup, step 4: smoke-test the installation
+Step 4: smoke-test the installation
 -----
 
 * You can now smoke-test your installation by running the following command:
@@ -56,7 +58,7 @@ Initial setup, step 4: smoke-test the installation
 
 If you are getting errors, please make sure your private token is correct.
 
-Initial setep, step 5: make sure Eventbrite can send webhooks to your site
+Step 5: add your webhook to Eventbrite
 -----
 
 When an event is changed or added in Eventbrite, Eventbrite informs your website by calling a predefined URL on your website with information about the event. This is a webhook.
@@ -71,7 +73,26 @@ This will give you something like:
 
 With a security token (different from your Eventbrite private token). Take note of this URL, it is your webhook.
 
-In Eventbrite, go to 
+In Eventbrite, go to https://www.eventbrite.com/account-settings/webhooks and add a webhook. Your webhook should be the full URL of your the website including the domain and the webhook path, above, for example:
+
+    http://example.com/webhook-receiver/eventbrite_one_way_sync/SOME_SECURITY_TOKEN?eventbrite_account_label=default
+
+In Events, choose "All Events".
+
+In Actions, select:
+
+* event.created
+* event.published
+* event.unpublished
+* event.updated
+
+Save your webhook by clicking Add Webhook
+
+Step 6: test your webhook
+-----
+
+Click the "Test" button Eventbrite.
+
 
 
 

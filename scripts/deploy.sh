@@ -19,7 +19,15 @@ echo '-----'
 echo 'About to start persistent (-d) containers based on the images defined'
 echo 'in ./Dockerfile-* files. We are also telling docker-compose to'
 echo 'rebuild the images if they are out of date.'
-docker-compose up -d --build
+# Use export STANRARD_PORT=1; ./scripts/deploy.sh if you want to test this on
+# a live server to get around Eventbrite's disdain at non-standard ports.
+if [ "$STANDARD_PORT" == 1 ]; then
+  docker-compose -f docker-compose.yml -f docker-compose.standard_port.yml up -d --build
+else
+  docker-compose up -d --build
+fi
+
+
 
 echo ''
 echo '-----'
