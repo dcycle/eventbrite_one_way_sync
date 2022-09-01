@@ -10,7 +10,7 @@ interface EventNodeInterface {
   /**
    * Synchronize with the Eventbrite Event.
    *
-   * @return \Drupal\eventbrite_one_way_sync_node\EventNodeInterface
+   * @return \Drupal\eventbrite_one_way_sync_node\EventNode\EventNodeInterface
    *   This object for daisychaining.
    */
   public function syncWithEventbriteEvent() : EventNodeInterface;
