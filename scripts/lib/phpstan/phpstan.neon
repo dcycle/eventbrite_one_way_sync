@@ -3,6 +3,8 @@ parameters:
   excludePaths:
     - */tests/*
     - */eventbrite_one_way_sync/phpunit-autoload.php
+    # See https://github.com/dcycle/eventbrite_one_way_sync/issues/5
+    - */eventbrite_one_way_sync/src/Plugin/WebhookReceiverPlugin/Eventbrite.php
     - */eventbrite_one_way_sync/phpunit-bootstrap.php
 includes:
   - /var/www/html/phpstan.neon

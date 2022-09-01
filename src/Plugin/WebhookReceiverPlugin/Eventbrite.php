@@ -4,9 +4,6 @@ namespace Drupal\eventbrite_one_way_sync\Plugin\WebhookReceiverPlugin;
 
 use Drupal\webhook_receiver\WebhookReceiverPluginBase;
 use Drupal\webhook_receiver\WebhookReceiverLog\WebhookReceiverLogInterface;
-use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\webhook_receiver\Payload\PayloadInterface;
 
 /**
@@ -25,7 +22,7 @@ class Eventbrite extends WebhookReceiverPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function validatePayload(PayloadInterface $payload, WebhookReceiverLogInterface $log) : bool {
+  public function validatePayload(PayloadInterface $payload, WebhookReceiverLogInterface2 $log) : bool {
     $log->debug('The payload is valid.');
     return TRUE;
   }

@@ -27,8 +27,6 @@ else
   docker-compose up -d --build
 fi
 
-
-
 echo ''
 echo '-----'
 echo 'Running the deploy scripts on the container.'
