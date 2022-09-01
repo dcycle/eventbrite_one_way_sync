@@ -42,4 +42,11 @@ class EventbriteOneWaySync implements EventbriteOneWaySyncInterface {
       ->process();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function webhook(string $eventbrite_account_label) : string {
+    return $this->webhookReceiver()->webhooks()['eventbrite_one_way_sync']['webhook_path'] . '?eventbrite_account_label=' . $eventbrite_account_label;
+  }
+
 }

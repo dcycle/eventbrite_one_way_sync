@@ -12,7 +12,7 @@ This module does not come with a graphical user interface.
 
 To use this module you need to be comfortable editing your Drupal site's `settings.php` file, and use `drush` on the command line.
 
-Initial setup: make sure you have an Eventbrite account
+Initial setup, step 1: make sure you have an Eventbrite account, website, and token
 -----
 
 * Make sure you have an Eventbrite account.
@@ -23,7 +23,10 @@ Initial setup: make sure you have an Eventbrite account
 
     https://www.eventbriteapi.com/v3/users/me/organizations/?token=PUT_YOUR_PRIVATE_TOKEN_HERE
 
-* Edit your site's ./sites/default/settings.php and add the following (see also the "security" section, below):
+Initial setup, step 2: configure this module to use your Eventbrite token
+-----
+
+* Edit your site's ./sites/default/settings.php and add the following (this is not meant to be in version control; see also the "security" section, below):
 
     $config['eventbrite_one_way_sync.unversioned']['api-keys'] = [
       'default' => [
@@ -32,14 +35,20 @@ Initial setup: make sure you have an Eventbrite account
       ],
     ];
 
+Initial setup, step 3: tell this module which node type and fields to use
+-----
+
 * Create a node type, or use an existing node type (for example "event") with at least these fields:
   * A Text (plain) field (for example "field_eventbrite_id") to store the eventbrite event ID.
   * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct.
   * A **multi-value** Date Range field (for example "field_eventbrite_date") to store the eventbrite dates.
 
-* Tell Drupal what your node type and fields are:
+* Tell Drupal what your node type and fields are (this changes the configuration of the module and can be exported to code as any configuration can):
 
     drush ev "eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');"
+
+Initial setup, step 4: smoke-test the installation
+-----
 
 * You can now smoke-test your installation by running the following command:
 
@@ -47,28 +56,26 @@ Initial setup: make sure you have an Eventbrite account
 
 If you are getting errors, please make sure your private token is correct.
 
-
-
-
-* Make sure you are comfortable using `drush` on the command line, and editing your `settings.php`.
-* Go to https://www.eventbrite.com/account-settings/apps and create an API key. Take note of the **private token**, it is the only information we'll use.
-* You will need your organization number, which you can find by visiting the following URL.
-
-    https://www.eventbriteapi.com/v3/users/me/organizations/?token=PUT_YOUR_PRIVATE_TOKEN_HERE
-
-
-* Tell Drupal what your node type and fields are:
-
-    eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');
-
-Smoke-test your configuration
+Initial setep, step 5: make sure Eventbrite can send webhooks to your site
 -----
 
-Smoke-test your configuration before moving to the next step:
+When an event is changed or added in Eventbrite, Eventbrite informs your website by calling a predefined URL on your website with information about the event. This is a webhook.
 
-    eventbrite_one_way_sync()->smokeTest()->run(key: 'default');
+Take note of the webhook to use by calling:
 
-If you're not getting any errors, congratulations, you can move on!
+    drush ev "print_r(eventbrite_one_way_sync()->webhook(eventbrite_account_label: 'default') . PHP_EOL);"
+
+This will give you something like:
+
+    /webhook-receiver/eventbrite_one_way_sync/SOME_SECURITY_TOKEN?eventbrite_account_label=default
+
+With a security token (different from your Eventbrite private token). Take note of this URL, it is your webhook.
+
+In Eventbrite, go to 
+
+
+
+
 
 
 Pull events from Eventbrite
