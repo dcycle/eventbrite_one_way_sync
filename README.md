@@ -8,35 +8,27 @@ Synchronize events from Eventbrite to Drupal nodes. This only synchronizes event
 No GUI
 -----
 
-This module does not come with a graphical user interface. You will need to interact with it through code as described below.
+This module does not come with a graphical user interface.
 
-This module obtains Eventbrite events in two ways, and we will demonstrate, below, how each works.
+You will need to set up your private token by adding lines in your Drupal site's `settings.php` as described below.
 
-Pull events from Eventbrite
------
+You will need to use a `drush` command to tell this module which node type to use for your new events. This, too is described below.
 
-This module can connect to Eventbrite and synchronize events which pre-exist the installation of this module.
+If you have Eventbrite events that pre-exist the installation of this module, you can import them using a `drush` command as described below.
 
-Have Eventbrite push events to Drupal when they change, via Webhooks
------
+This module obtains Eventbrite events in two ways, and we will demonstrate below how each works.
 
-Connecting via webhooks is optional.
-
-This uses the [Webhook Receiver](https://www.drupal.org/project/eventbrite_one_way_sync) module.
-
-This requires a running, publicly-accessible Drupal site running on standard port. (At the time of this writing, Eventbrite will fail if it tries to access Webhooks that look like example.com:1234 that use a nonstandard port number.)
-
-Initial setup: make sure you have an Eventbrite account and event
+Initial setup: make sure you have an Eventbrite account
 -----
 
 * Make sure you have an Eventbrite account.
 * Make sure you have a running Drupal site with this module enabled.
+* Make sure you are comfortable using `drush` on the command line, and editing your `settings.php`.
 * Create a node type, or use an existing node type (for example "event") with at least these fields:
   * A Text (plain) field (for example "field_eventbrite_id") to store the eventbrite event ID.
   * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct.
   * A **multi-value** Date Range field (for example "field_eventbrite_date") to store the eventbrite dates.
-* Create an event with more than one occurrence; and another event with only one occurrence (these are managed differently in Eventbrite, as we'll see later).
-* Make sure you have a website URL
+* Make sure your website is publicly accessible on a domain which does not have a non-standard port (at the time of this writing, example.com is fine, but example.com:1234 causes errors Eventbrite) for Eventbrite to inform your website, through webhooks, when events are created or updated.
 * Go to https://www.eventbrite.com/account-settings/apps and create an API key. Take note of the **private token**, it is the only information we'll use.
 * You will need your organization number, which you can find by visiting the following URL.
 
@@ -63,6 +55,21 @@ Smoke-test your configuration before moving to the next step:
     eventbrite_one_way_sync()->smokeTest()->run(key: 'default');
 
 If you're not getting any errors, congratulations, you can move on!
+
+
+Pull events from Eventbrite
+-----
+
+This module can connect to Eventbrite and synchronize events which pre-exist the installation of this module.
+
+Have Eventbrite push events to Drupal when they change, via Webhooks
+-----
+
+Connecting via webhooks is optional.
+
+This uses the [Webhook Receiver](https://www.drupal.org/project/eventbrite_one_way_sync) module.
+
+This requires a running, publicly-accessible Drupal site running on standard port. (At the time of this writing, Eventbrite will fail if it tries to access Webhooks that look like example.com:1234 that use a nonstandard port number.)
 
 Seeing your events programmatically
 -----
