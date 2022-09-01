@@ -2,13 +2,13 @@
 
 namespace Drupal\eventbrite_one_way_sync;
 
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 
 /**
  * Abstraction around a collection of plugins.
  */
-class EventbriteOneWaySyncPluginCollection implements EventbriteOneWaySyncPluginInterface {
+class EventbriteOneWaySyncPluginCollection implements EventbriteOneWaySyncPluginInterface, \Countable {
 
   use DependencyInjection;
 
@@ -35,6 +35,13 @@ class EventbriteOneWaySyncPluginCollection implements EventbriteOneWaySyncPlugin
     }
 
     return $return;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function count() {
+    return count($this->pluginDefinitions());
   }
 
   /**
@@ -99,7 +106,7 @@ class EventbriteOneWaySyncPluginCollection implements EventbriteOneWaySyncPlugin
   /**
    * {@inheritdoc}
    */
-  public function process(EventbriteEventInterface $event) {
+  public function process(EventbriteEventValidInterface $event) {
     foreach ($this->plugins() as $plugin) {
       $plugin->process($event);
     }

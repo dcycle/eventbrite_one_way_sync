@@ -22,3 +22,10 @@ function eventbrite_one_way_sync() : EventbriteOneWaySync {
 // @codingStandardsIgnoreEnd
   return \Drupal::service('eventbrite_one_way_sync');
 }
+
+/**
+ * Implements hook_cron().
+ */
+function eventbrite_one_way_sync_cron() {
+  eventbrite_one_way_sync()->hookCron();
+}

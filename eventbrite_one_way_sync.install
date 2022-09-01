@@ -19,7 +19,7 @@ function eventbrite_one_way_sync_schema() {
       'eid' => [
         'type' => 'serial',
         'not null' => TRUE,
-        'description' => 'Primary Key: Unique call ID.',
+        'description' => 'Primary Key: Unique event ID.',
       ],
       'remote_id' => [
         'type' => 'varchar',
@@ -41,11 +41,19 @@ function eventbrite_one_way_sync_schema() {
         'not null' => FALSE,
         'description' => 'The response.',
       ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => 'new',
+        'description' => 'The status of the event.',
+      ],
     ],
     'primary key' => ['eid'],
     'indexes' => [
       'remote_id' => ['remote_id'],
       'occurrence_id' => ['occurrence_id'],
+      'status' => ['status'],
     ],
   ];
 

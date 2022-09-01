@@ -3,7 +3,7 @@
 namespace Drupal\eventbrite_one_way_sync_node\Plugin\EventbriteOneWaySyncPlugin;
 
 use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 use Drupal\eventbrite_one_way_sync\SelfTest\SelfTestLogTrait;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginBase;
 
@@ -26,7 +26,7 @@ class EventbriteNode extends EventbriteOneWaySyncPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function process(EventbriteEventInterface $event) {
+  public function process(EventbriteEventValidInterface $event) {
     return $this->eventbriteOneWaySyncNode()->process($event);
   }
 

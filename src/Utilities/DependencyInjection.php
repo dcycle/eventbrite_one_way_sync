@@ -18,6 +18,8 @@ use Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface;
 // utility from there to log errors and give them a UUID.
 use Drupal\webhook_receiver\WebhookReceiverActivityLog\WebhookReceiverActivityLogInterface;
 use Drupal\eventbrite_one_way_sync\SelfTest\EndToEndTestInterface;
+use Drupal\Component\Datetime\TimeInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventFactory;
 
 /**
  * I like using a trait rather than services arguments which I find messy.
@@ -32,6 +34,26 @@ trait DependencyInjection {
    */
   public function plugins() : EventbriteOneWaySyncPluginCollection {
     return \Drupal::service('eventbrite_one_way_sync.plugins');
+  }
+
+  /**
+   * Get the event factory.
+   *
+   * @return \Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventFactory
+   *   The event factory.
+   */
+  public function eventFactory() : EventbriteEventFactory {
+    return \Drupal::service('eventbrite_one_way_sync.event_factory');
+  }
+
+  /**
+   * Get the time service.
+   *
+   * @return \Drupal\Component\Datetime\TimeInterface
+   *   The time service.
+   */
+  public function time() : TimeInterface {
+    return \Drupal::service('datetime.time');
   }
 
   /**

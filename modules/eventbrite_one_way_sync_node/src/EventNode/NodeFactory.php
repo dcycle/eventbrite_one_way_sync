@@ -2,7 +2,7 @@
 
 namespace Drupal\eventbrite_one_way_sync_node\EventNode;
 
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
 use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
 use Drupal\node\NodeInterface;
@@ -18,16 +18,16 @@ class NodeFactory implements NodeFactoryInterface {
   /**
    * {@inheritdoc}
    */
-  public function getOrCreateNode(EventbriteEventInterface $event) : EventNodeInterface {
-    $account = $event->eventbriteAccountLabel();
+  public function getOrCreateNode(EventbriteEventValidInterface $event) : EventNodeInterface {
+    $account = $event->remoteId()->eventbriteAccountName();
 
     $node_type = $this->nodeConfig()->nodeType($account);
     $id_field = $this->nodeConfig()->idField($account);
 
-    $candidate = $this->fetchSingleNode($node_type, $id_field, $event->remoteId());
+    $candidate = $this->fetchSingleNode($node_type, $id_field, $event->remoteId()->toString());
 
     if (!$candidate) {
-      $candidate = $this->createNode($node_type, $id_field, $event->remoteId());
+      $candidate = $this->createNode($node_type, $id_field, $event->remoteId()->toString());
     }
 
     return new EventNode($candidate, $event);

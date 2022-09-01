@@ -2,7 +2,7 @@
 
 namespace Drupal\eventbrite_one_way_sync_node;
 
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
 
 /**
@@ -17,7 +17,7 @@ class EventbriteOneWaySyncNode implements EventbriteOneWaySyncNodeInterface {
   /**
    * {@inheritdoc}
    */
-  public function process(EventbriteEventInterface $event) {
+  public function process(EventbriteEventValidInterface $event) {
     $this->nodeFactory()
       ->getOrCreateNode($event)
       ->syncWithEventbriteEvent()

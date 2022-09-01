@@ -2,7 +2,7 @@
 
 namespace Drupal\eventbrite_one_way_sync;
 
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 
 /**
  * An interface for all EventbriteOneWaySyncPlugin type plugins.
@@ -14,10 +14,10 @@ interface EventbriteOneWaySyncPluginInterface {
   /**
    * Process an event from Eventbrite.
    *
-   * @param \Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface $event
+   * @param \Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface $event
    *   An event from Eventbrite.
    */
-  public function process(EventbriteEventInterface $event);
+  public function process(EventbriteEventValidInterface $event);
 
   /**
    * Run smoke test.

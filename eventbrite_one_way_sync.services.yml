@@ -27,6 +27,9 @@ services:
   eventbrite_one_way_sync.plugins:
     class: >-
       Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginCollection
+  eventbrite_one_way_sync.event_factory:
+    class: >-
+      Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventFactory
   plugin.manager.eventbrite_one_way_sync:
     class: Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginManager
     parent: default_plugin_manager
