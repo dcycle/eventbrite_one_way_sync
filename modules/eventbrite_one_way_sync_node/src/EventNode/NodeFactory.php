@@ -89,6 +89,7 @@ class NodeFactory implements NodeFactoryInterface {
     $this->assertNonEmptyString($remoteId, 'Remote ID cannot be empty');
 
     $node = $this->entityTypeManager()->getStorage('node')->create([
+      'title' => 'New Event',
       'type' => $node_type,
       $id_field => $remoteId,
     ]);

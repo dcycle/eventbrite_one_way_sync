@@ -9,8 +9,11 @@ interface EventNodeInterface {
 
   /**
    * Synchronize with the Eventbrite Event.
+   *
+   * @return \Drupal\eventbrite_one_way_sync_node\EventNodeInterface
+   *   This object for daisychaining.
    */
-  public function syncWithEventbriteEvent();
+  public function syncWithEventbriteEvent() : EventNodeInterface;
 
   /**
    * Save the node.
