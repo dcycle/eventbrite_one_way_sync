@@ -14,12 +14,13 @@ use Drupal\Core\Database\Connection;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginCollection;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginManager;
 use Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface;
-// Webhook Receiver is a dependency of this module, so we'll use this nify
-// utility from there to log errors and give them a UUID.
-use Drupal\webhook_receiver\WebhookReceiverActivityLog\WebhookReceiverActivityLogInterface;
 use Drupal\eventbrite_one_way_sync\SelfTest\EndToEndTestInterface;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventFactory;
+// Webhook Receiver is a dependency of this module, so we'll use this nify
+// utility from there to log errors and give them a UUID.
+use Drupal\webhook_receiver\WebhookReceiverActivityLog\WebhookReceiverActivityLogInterface;
+use Drupal\webhook_receiver\WebhookReceiver;
 
 /**
  * I like using a trait rather than services arguments which I find messy.
@@ -180,10 +181,20 @@ trait DependencyInjection {
    * Get the database connection service.
    *
    * @return \Drupal\Core\Database\Connection
-   *   The database connection service..
+   *   The database connection service.
    */
   public function connection() : Connection {
     return \Drupal::service('database');
+  }
+
+  /**
+   * Get the webhook_receiver service from the webhook_receiver module.
+   *
+   * @return \Drupal\webhook_receiver\WebhookReceiver
+   *   The webhook_receiver service.
+   */
+  public function webhookReceiver() : WebhookReceiver {
+    return \Drupal::service('webhook_receiver');
   }
 
   /**

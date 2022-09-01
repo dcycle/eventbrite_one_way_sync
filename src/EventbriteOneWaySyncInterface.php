@@ -33,4 +33,12 @@ interface EventbriteOneWaySyncInterface {
    */
   public function processNext() : bool;
 
+  /**
+   * Get the webhook to use, see ./README.md.
+   *
+   * @return string
+   *   The webhook to use.
+   */
+  public function webhook(string $eventbrite_account_label) : string;
+
 }

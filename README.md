@@ -8,41 +8,27 @@ Synchronize events from Eventbrite to Drupal nodes. This only synchronizes event
 No GUI
 -----
 
-This module does not come with a graphical user interface. You will need to interact with it through code as described below.
+This module does not come with a graphical user interface.
 
-This module obtains Eventbrite events in two ways, and we will demonstrate, below, how each works.
+To use this module you need to be comfortable editing your Drupal site's `settings.php` file, and use `drush` on the command line.
 
-Pull events from Eventbrite
------
+Here is how to set this up:
 
-This module can connect to Eventbrite and synchronize events which pre-exist the installation of this module.
-
-Have Eventbrite push events to Drupal when they change, via Webhooks
------
-
-Connecting via webhooks is optional.
-
-This uses the [Webhook Receiver](https://www.drupal.org/project/eventbrite_one_way_sync) module.
-
-This requires a running, publicly-accessible Drupal site running on standard port. (At the time of this writing, Eventbrite will fail if it tries to access Webhooks that look like example.com:1234 that use a nonstandard port number.)
-
-Initial setup: make sure you have an Eventbrite account and event
+Step 1: make sure you have an Eventbrite account, website, and token
 -----
 
 * Make sure you have an Eventbrite account.
 * Make sure you have a running Drupal site with this module enabled.
-* Create a node type, or use an existing node type (for example "event") with at least these fields:
-  * A Text (plain) field (for example "field_eventbrite_id") to store the eventbrite event ID.
-  * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct.
-  * A **multi-value** Date Range field (for example "field_eventbrite_date") to store the eventbrite dates.
-* Create an event with more than one occurrence; and another event with only one occurrence (these are managed differently in Eventbrite, as we'll see later).
-* Make sure you have a website URL
+* Make sure your website is publicly accessible using a standard port (at the time of this writing, example.com is fine, but example.com:1234 causes errors Eventbrite) for Eventbrite to inform your website, through webhooks, when events are created or updated.
 * Go to https://www.eventbrite.com/account-settings/apps and create an API key. Take note of the **private token**, it is the only information we'll use.
 * You will need your organization number, which you can find by visiting the following URL.
 
     https://www.eventbriteapi.com/v3/users/me/organizations/?token=PUT_YOUR_PRIVATE_TOKEN_HERE
 
-* Edit your site's ./sites/default/settings.php and add the following:
+Step 2: configure this module to use your Eventbrite token
+-----
+
+* Edit your site's ./sites/default/settings.php and add the following (this is not meant to be in version control; see also the "security" section, below):
 
     $config['eventbrite_one_way_sync.unversioned']['api-keys'] = [
       'default' => [
@@ -51,344 +37,126 @@ Initial setup: make sure you have an Eventbrite account and event
       ],
     ];
 
-* Tell Drupal what your node type and fields are:
-
-    eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');
-
-Smoke-test your configuration
+Step 3: tell this module which node type and fields to use
 -----
 
-Smoke-test your configuration before moving to the next step:
+* Create a node type, or use an existing node type (for example "event") with at least these fields:
+  * A Text (plain) field (for example "field_eventbrite_id") to store the eventbrite event ID.
+  * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct.
+  * A **multi-value** Date Range field (for example "field_eventbrite_date") to store the eventbrite dates.
 
-    eventbrite_one_way_sync()->smokeTest()->run(key: 'default');
+* Tell Drupal what your node type and fields are (this changes the configuration of the module and can be exported to code as any configuration can):
 
-If you're not getting any errors, congratulations, you can move on!
+    drush ev "eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');"
 
-Seeing your events programmatically
+Step 4: smoke-test the installation
 -----
 
-The following instructions will not synchronize your events, but they give you an idea of how this module works. This gets a maximum of 100 events and prints them to the screen:
+* You can now smoke-test your installation by running the following command:
 
-    eventbrite_one_way_sync()->session('default')
-      ->eventOccurrences(function($x) {
-          print_r($x . PHP_EOL);
-        }, function($x) {
-          print_r('Event ' . $x['id'] . '; ' . ($x['is_series'] ? 'part of series ' . $x['series_id'] : 'Single-time event') . PHP_EOL);
-        }, max: 100);
+    drush ev "eventbrite_one_way_sync()->smokeTest()->run(eventbrite_account_label: 'default');"
 
-If you have events with multiple occurrences, and events with a single occurrence, you'll see something like:
+If you are getting errors, please make sure your private token is correct.
 
-    Calling page 1
-    Total items: 9
-    Current page number: 1
-    Page size is: 50
-    Page count is: 1
-    Has more items: false
-    Event 408827041687; part of series 408827011597
-    Event 408827051717; part of series 408827011597
-    Event 408827061747; part of series 408827011597
-    Event 408827071777; part of series 408827011597
-    Event 408827081807; part of series 408827011597
-    Event 408827091837; part of series 408827011597
-    Event 408958615227; Single-time event
-    Event 408827101867; part of series 408827011597
-    Event 408827111897; part of series 408827011597
-
-In this case, we have two events, event:408958615227, and series:408827011597. The way Eventbrite presents this information is rather odd in my opinion.
-
-Three types of records
+Step 5: add your webhook to Eventbrite
 -----
 
-The first record type we have is a single-time event, in our example 408958615227. It looks like this:
+When an event is changed or added in Eventbrite, Eventbrite informs your website by calling a predefined URL on your website with information about the event. This is a webhook.
 
-    eventbrite_one_way_sync()->session('default')->get('/events/408958615227');
-    => [
-         "name" => [
-           "text" => "Single Date Event",
-           "html" => "Single Date Event",
-         ],
-         "description" => [
-           "text" => "test",
-           "html" => "test",
-         ],
-         "url" => "https://www.eventbrite.com/e/single-date-event-tickets-408958615227",
-         "start" => [
-           "timezone" => "Europe/Amsterdam",
-           "local" => "2022-10-05T19:00:00",
-           "utc" => "2022-10-05T17:00:00Z",
-         ],
-         "end" => [
-           "timezone" => "Europe/Amsterdam",
-           "local" => "2022-10-05T22:00:00",
-           "utc" => "2022-10-05T20:00:00Z",
-         ],
-         "organization_id" => "1114019437563",
-         "created" => "2022-08-26T20:41:23Z",
-         "changed" => "2022-08-26T20:41:34Z",
-         "capacity" => 0,
-         "capacity_is_custom" => false,
-         "status" => "draft",
-         "currency" => "USD",
-         "listed" => true,
-         "shareable" => false,
-         "invite_only" => false,
-         "online_event" => true,
-         "show_remaining" => false,
-         "tx_time_limit" => 1200,
-         "hide_start_date" => false,
-         "hide_end_date" => false,
-         "locale" => "en_US",
-         "is_locked" => false,
-         "privacy_setting" => "unlocked",
-         "is_series" => false,
-         "is_series_parent" => false,
-         "inventory_type" => "limited",
-         "is_reserved_seating" => false,
-         "show_pick_a_seat" => false,
-         "show_seatmap_thumbnail" => false,
-         "show_colors_in_seatmap_thumbnail" => false,
-         "source" => "coyote",
-         "is_free" => true,
-         "version" => null,
-         "summary" => "test",
-         "facebook_event_id" => null,
-         "logo_id" => null,
-         "organizer_id" => "52394692353",
-         "venue_id" => null,
-         "category_id" => null,
-         "subcategory_id" => null,
-         "format_id" => "18",
-         "id" => "408958615227",
-         "resource_uri" => "https://www.eventbriteapi.com/v3/events/408958615227/",
-         "is_externally_ticketed" => false,
-         "logo" => null,
-       ]
+Take note of the webhook to use by calling:
 
-The second record type we have is a time in a series, in our example 408827041687. It looks like this:
+    drush ev "print_r(eventbrite_one_way_sync()->webhook(eventbrite_account_label: 'default') . PHP_EOL);"
 
-    eventbrite_one_way_sync()->session('default')->get('/events/408827041687');
-    => [
-         "name" => [
-           "text" => "Event to test integration with my API",
-           "html" => "Event to test integration with my API",
-         ],
-         "description" => [
-           "text" => "This is to test API integration",
-           "html" => "This is to test API integration",
-         ],
-         "url" => "https://www.eventbrite.com/e/event-to-test-integration-with-my-api-tickets-408827041687",
-         "start" => [
-           "timezone" => "America/Montreal",
-           "local" => "2022-08-30T19:00:00",
-           "utc" => "2022-08-30T23:00:00Z",
-         ],
-         "end" => [
-           "timezone" => "America/Montreal",
-           "local" => "2022-08-30T22:00:00",
-           "utc" => "2022-08-31T02:00:00Z",
-         ],
-         "organization_id" => "1114019437563",
-         "created" => "2022-08-26T16:14:22Z",
-         "changed" => "2022-08-26T19:17:22Z",
-         "published" => "2022-08-26T16:15:30Z",
-         "capacity" => 150,
-         "capacity_is_custom" => false,
-         "status" => "draft",
-         "currency" => "USD",
-         "listed" => true,
-         "shareable" => true,
-         "invite_only" => false,
-         "online_event" => false,
-         "show_remaining" => false,
-         "tx_time_limit" => 1200,
-         "hide_start_date" => false,
-         "hide_end_date" => false,
-         "locale" => "en_US",
-         "is_locked" => false,
-         "privacy_setting" => "unlocked",
-         "is_series" => true,
-         "is_series_parent" => false,
-         "inventory_type" => "limited",
-         "is_reserved_seating" => false,
-         "show_pick_a_seat" => false,
-         "show_seatmap_thumbnail" => false,
-         "show_colors_in_seatmap_thumbnail" => false,
-         "source" => "coyote",
-         "is_free" => true,
-         "version" => null,
-         "summary" => "This is to test API integration",
-         "facebook_event_id" => null,
-         "logo_id" => null,
-         "organizer_id" => "52379980083",
-         "venue_id" => null,
-         "category_id" => "105",
-         "subcategory_id" => null,
-         "format_id" => "2",
-         "id" => "408827041687",
-         "resource_uri" => "https://www.eventbriteapi.com/v3/events/408827041687/",
-         "is_externally_ticketed" => false,
-         "series_id" => "408827011597",
-         "logo" => null,
-       ]
+This will give you something like:
 
-The third record type we have is an event series, in our example 408827011597:
+    /webhook-receiver/eventbrite_one_way_sync/SOME_SECURITY_TOKEN?eventbrite_account_label=default
 
-    eventbrite_one_way_sync()->session('default')->get('/series/408827011597');
-    => [
-         "name" => [
-           "text" => "Event to test integration with my API",
-           "html" => "Event to test integration with my API",
-         ],
-         "description" => [
-           "text" => "This is to test API integration",
-           "html" => "This is to test API integration",
-         ],
-         "url" => "https://www.eventbrite.com/e/event-to-test-integration-with-my-api-tickets-408827011597",
-         "start" => [
-           "timezone" => "America/Montreal",
-           "local" => "2022-08-30T19:00:00",
-           "utc" => "2022-08-30T23:00:00Z",
-         ],
-         "end" => [
-           "timezone" => "America/Montreal",
-           "local" => "2022-10-18T22:00:00",
-           "utc" => "2022-10-19T02:00:00Z",
-         ],
-         "organization_id" => "1114019437563",
-         "created" => "2022-08-26T16:14:02Z",
-         "changed" => "2022-08-26T19:17:22Z",
-         "published" => "2022-08-26T16:15:30Z",
-         "capacity" => 150,
-         "capacity_is_custom" => false,
-         "status" => "draft",
-         "currency" => "USD",
-         "listed" => true,
-         "shareable" => true,
-         "invite_only" => false,
-         "online_event" => false,
-         "show_remaining" => false,
-         "tx_time_limit" => 1200,
-         "hide_start_date" => false,
-         "hide_end_date" => false,
-         "locale" => "en_US",
-         "is_locked" => false,
-         "privacy_setting" => "unlocked",
-         "is_series" => true,
-         "is_series_parent" => true,
-         "inventory_type" => "limited",
-         "is_reserved_seating" => false,
-         "show_pick_a_seat" => false,
-         "show_seatmap_thumbnail" => false,
-         "show_colors_in_seatmap_thumbnail" => false,
-         "source" => "coyote",
-         "is_free" => true,
-         "version" => null,
-         "summary" => "This is to test API integration",
-         "facebook_event_id" => null,
-         "logo_id" => null,
-         "organizer_id" => "52379980083",
-         "venue_id" => null,
-         "category_id" => "105",
-         "subcategory_id" => null,
-         "format_id" => "2",
-         "id" => "408827011597",
-         "resource_uri" => "https://www.eventbriteapi.com/v3/series/408827011597/",
-         "logo" => null,
-       ]
+With a security token (different from your Eventbrite private token). Take note of this URL, it is your webhook.
 
-Initial import of existing events
+In Eventbrite, go to https://www.eventbrite.com/account-settings/webhooks and add a webhook. Your webhook should be the full URL of your the website including the domain and the webhook path, above, for example:
+
+    http://example.com/webhook-receiver/eventbrite_one_way_sync/SOME_SECURITY_TOKEN?eventbrite_account_label=default
+
+**You cannot use a non-standard port at the time of this writing; Eventbrite will always fail with a 408 timeout if you do: example.com or 1.2.3.4 is OK, but not example.com:1234, or 1.2.3.4:1234.**
+
+In Events, choose "All Events".
+
+In Actions, select:
+
+* event.created
+* event.published
+* event.unpublished
+* event.updated
+
+Save your webhook by clicking Add Webhook
+
+Step 6: test your webhook
 -----
 
-If you just installed this module and you have events on Eventbrite, you can run this import script, with or without a maximum. The maximum is used for testing, and it will not remember where you left off, so it will always start at the beginning.
+On the Eventbrite page with your webhook, click the "Test" button Eventbrite.
 
-    eventbrite_one_way_sync()->session('default')
-      ->importExistingToQueue(max: 10);
+**Wait 30 seconds**.
 
-    eventbrite_one_way_sync()->session('default')
-      ->importExistingToQueue();
+Reload the Eventbrite page with your webhook to see the test result.
 
+You should see a test result "200 OK".
 
-
-    eventbrite_one_way_sync()->session('default')
-      ->eventOccurrences(function($x) {
-          print_r($x . PHP_EOL);
-        }, function($x) {
-          print_r('Event ' . $x['id'] . '; ' . ($x['is_series'] ? 'part of series ' . $x['series_id'] : 'Single-time event') . PHP_EOL);
-        }, max: 100);
-
-
-How this module synchronizes events
+Step 7: import existing events from Eventbrite
 -----
 
-Because events which are part of series contain all the same information as the series themselves, we never fetch series information. Rather, we use the series ID as a way to tie together event occurrences.
+If you have events in Eventbrite which predate the installation of this module, you can queue them for import.
 
-Concretely, with the above example:
+If you have a very large number of events, you can try importing a few before importing them all:
 
-* When fetching Event 408827041687; part of series 408827011597, we create or update a node linked to Eventbrite series:408827011597.
-* When fetching Event 408958615227, which is not part of a series, we create or update a node linked to Eventbrite event:408958615227.
+    drush ev "eventbrite_one_way_sync()->session('default')->importExistingToQueue(max: 10);"
 
-Similar modules
+This will queue your events for processing.
+
+The actual event nodes will be created on cron. To create them run:
+
+    drush cron
+
+You can now visit /admin/content on your Drupal site and see your new events.
+
+Multiple accounts or organizations
 -----
 
-* [Eventbrite](https://www.drupal.org/project/eventbrite), which works only with Drupal 7, whereas our module works with Drupal >= 9.
-* [Eventbrite Events](https://www.drupal.org/project/eventbrite_events), which seems to be abandoned and has no official release.
+If you have multiple accounts or organizations, you can name each in your settings.php file like this:
 
+    $config['eventbrite_one_way_sync.unversioned']['api-keys'] = [
+      'default' => [
+        'private_token' => 'PUT_YOUR_PRIVATE_TOKEN_HERE',
+        'organization_id' => '123456789',
+      ],
+      'another_organization' => [
+        'private_token' => 'PUT_YOUR_PRIVATE_TOKEN_HERE',
+        'organization_id' => '234567890',
+      ],
+      'my_brothers_account' => [
+        'private_token' => 'ANOTHER_ACCOUNT',
+        'organization_id' => '345678901',
+      ],
+    ];
 
+Then, any time you see "default" in the instructions above, use, instead, "another_organization" or "my_brothers_account".
 
-
-{
-  "api_url": "https://www.eventbriteapi.com/{api-endpoint-to-fetch-object-details}/",
-  "config": {
-    "action": "test",
-    "endpoint_url": "https://stewardcommunitystg.prod.acquia-sites.com/a/b/c",
-    "user_id": "94081112861",
-    "webhook_id": "10621979"
-  }
-}
-{
-  "api_url": "https://www.eventbriteapi.com/v3/series/408156435887/",
-  "config": {
-    "action": "event.created",
-    "endpoint_url": "https://stewardcommunitystg.prod.acquia-sites.com/a/b/c",
-    "user_id": "94081112861",
-    "webhook_id": "10621979"
-  }
-}
-
-{
-  "api_url": "https://www.eventbriteapi.com/v3/events/408156646517/",
-  "config": {
-    "action": "event.updated",
-    "endpoint_url": "https://stewardcommunitystg.prod.acquia-sites.com/a/b/c",
-    "user_id": "94081112861",
-    "webhook_id": "10621979"
-  }
-}
-
-How Eventbrite stores events, how this module stores events, and what is a Remote ID?
+Security
 -----
 
-This module uses the concept of Remote ID to identify either an event with a single date, or an event with multiple dates, on Eventbrite.
+Some setups, like Acquia, keep the sites/default/settings.php file in version control. If such is the case, you'll want to avoid having your private token there.
 
-On Eventbrite, these are completely separate concepts:
+Option 1: include an unversioned php file from your settings file.
 
-* An event with a single date is an Event which is not part of a series.
-* An event with multiple dates is a Series which can have multiple Events.
+    # settings.php
+    include('/path/to/unversioned/settings/file/outsite/web/root/settings.php');
 
-In this module, our conception of an Event is different: it can have any number of dates.
+and then put your API information in that file.
 
-Therefore all events (whether with a single date or multiple dates) are considered to be an event with a remote ID. The remote ID looks like this:
+Option 2: store your private token in a text file, as suggested by the comments in Drupal's settings.php file:
 
-* default:event:123 for an event with a single date, which Eventbrite calls an event.
-* default:series:123 for an event with multiple dates, which Eventbrite calls a series.
-
-The base module (eventbrite_one_way_sync) keeps of a queue of events to process which looks like this:
-
-| remote_id          | occurrence_id     | struct |
-|--------------------|-------------------|--------|
-| default:event:123  | default:event:123 | (json) |
-| default:series:234 | default:event:234 | (json) |
-| default:series:234 | default:event:345 | (json) |
-| default:series:234 | default:event:456 | (json) |
-
-These are actually two events (default:event:123 and default:series:234) with four total occurrences (default:event:123, default:event:234, default:event:345, default:event:456).
+    $config['eventbrite_one_way_sync.unversioned']['api-keys'] = [
+      'default' => [
+        'private_token' => file_get_contents('/home/example/eventbrite_private_token.txt');,
+        'organization_id' => '123456789',
+      ],
+    ];
