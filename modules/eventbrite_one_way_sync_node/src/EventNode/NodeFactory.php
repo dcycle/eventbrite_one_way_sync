@@ -34,6 +34,36 @@ class NodeFactory implements NodeFactoryInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function deleteAllNodes(string $eventbrite_account_label, int $max = PHP_INT_MAX) {
+    $this->assertNonEmptyString($eventbrite_account_label, 'Eventbrite account label cannot be empty');
+
+    $node_type = $this->nodeConfig()->nodeType($eventbrite_account_label);
+    $id_field = $this->nodeConfig()->idField($eventbrite_account_label);
+
+    $like = $this->connection()->escapeLike($eventbrite_account_label . ':') . '%';
+
+    print_r('We will attempt to load a maximum of ' . PHP_INT_MAX . ' nodes with ' . $id_field . ' LIKE ' . $like . ':' . PHP_EOL);
+
+    $query = $this->drupalEntityQuery('node');
+    $query->condition('type', $node_type);
+    $query->condition($id_field, $like, 'LIKE');
+    $query->range(0, $max);
+
+    $nids = $query->execute();
+
+    print_r('We found ' . count($nids) . ' nids' . PHP_EOL);
+
+    $nodes = $this->entityTypeManager()->getStorage('node')->loadMultiple($nids);
+
+    $this->entityTypeManager()->getStorage('node')->delete($nodes);
+
+    print_r('We have deleted these ' . count($nids) . ' nodes with ' . $id_field . ' LIKE ' . $like . ':' . PHP_EOL);
+    print_r($nids);
+  }
+
+  /**
    * Get a single node if it exists.
    *
    * @param string $node_type
