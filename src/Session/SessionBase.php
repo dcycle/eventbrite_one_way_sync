@@ -174,6 +174,15 @@ abstract class SessionBase implements SessionInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function importEventToQueue(string $event_id, callable $log) {
+    $this->assertNonEmptyString($event_id, 'Event ID cannot be empty.');
+
+    $this->processorFactory()->getProcessor($this->eventbriteAccountLabel, $this->get('/events/' . $event_id . '/'), $log)->process();
+  }
+
+  /**
    * Get the base URL for this request.
    *
    * @return string
@@ -190,7 +199,7 @@ abstract class SessionBase implements SessionInterface {
    *   Query parameters to send to Eventbrite, other than the API key which
    *   is added automatically.
    */
-  public function get(string $path, array $query_params = []) {
+  public function get(string $path, array $query_params = []) : array {
     $this->assertNonEmptyString($path, 'Path cannot be empty.');
     $full_url = $this->baseUrl() . $path;
 
@@ -201,7 +210,14 @@ abstract class SessionBase implements SessionInterface {
         'token' => $this->apiKey(),
       ],
     ]);
-    return Json::decode($response->getBody());
+    print_r([$full_url, $this->apiKey()]);
+    $candidate = Json::decode($response->getBody());
+
+    if (!is_array($candidate)) {
+      throw new \Exception('Eventbrite did not return an array for ' . $path);
+    }
+
+    return $candidate;
   }
 
 }

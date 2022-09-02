@@ -4,4 +4,4 @@
 #
 set -e
 
-docker-compose exec -T drupal /bin/bash -c "drush ev '\Drupal::service("'"'"eventbrite_one_way_sync.request_response_test"'"'")->run("'"'"eventbrite_one_way_sync_example"'"'")'"
+docker-compose exec -T drupal /bin/bash -c "drush ev '\Drupal::service("'"'"webhook_receiver.request_response_test"'"'")->run("'"'"eventbrite_one_way_sync"'"'")'"
