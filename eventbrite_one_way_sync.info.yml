@@ -5,4 +5,6 @@ description: Sync events from Eventbrite to Drupal.
 core_version_requirement: ^9
 php: '8.x'
 dependencies:
+  # We need to defer processing of webhooks because Eventbrite times out
+  # very fast.
   - webhook_receiver:webhook_receiver_defer

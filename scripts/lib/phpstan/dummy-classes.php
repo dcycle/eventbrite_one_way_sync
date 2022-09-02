@@ -14,6 +14,12 @@ namespace Drupal\webhook_receiver {
   }
 }
 
+namespace Drupal\webhook_receiver\SelfTest {
+  class RequestResponseTest {
+    public function run($x) {}
+  }
+}
+
 namespace Drupal\webhook_receiver\WebhookReceiverLog {
   interface WebhookReceiverLogInterface {
     public function debug($x);
