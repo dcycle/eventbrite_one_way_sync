@@ -15,4 +15,15 @@ interface EventbriteEventValidInterface extends EventbriteEventInQueueInterface 
    */
   public function getTitle() : string;
 
+  /**
+   * Update a struct to represent this event.
+   *
+   * @param array $struct
+   *   A struct to update.
+   *
+   * @return bool
+   *   TRUE if an update has been performed.
+   */
+  public function toStruct(array &$struct) : bool;
+
 }

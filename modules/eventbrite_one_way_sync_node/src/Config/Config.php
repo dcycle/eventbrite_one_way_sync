@@ -79,6 +79,13 @@ class Config extends BaseConfig implements ConfigInterface {
   /**
    * {@inheritdoc}
    */
+  public function structField(string $eventbrite_account_label) : string {
+    return $this->fieldMapItem($eventbrite_account_label, 'struct_field');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function checkNodeTypeAndFields(string $eventbrite_account_label, string $node_type = '', string $eventbrite_id_field = '', string $eventbrite_struct_field = '', $eventbrite_date_field = '') {
     $this->assertNonEmptyString($eventbrite_account_label, 'Label cannot be empty, it should be something like "default"');
 

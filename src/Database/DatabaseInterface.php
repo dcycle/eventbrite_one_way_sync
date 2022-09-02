@@ -48,4 +48,12 @@ interface DatabaseInterface {
    */
   public function nextEvent() : EventbriteEventInterface;
 
+  /**
+   * Count the items in the queue.
+   *
+   * @return int
+   *   The items in the queue.
+   */
+  public function countQueue() : int;
+
 }

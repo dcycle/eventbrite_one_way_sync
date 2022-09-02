@@ -67,4 +67,18 @@ class EventbriteEventValid extends EventbriteEventInQueue implements EventbriteE
     return TRUE;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function toStruct(array &$struct) : bool {
+    $original = $struct;
+    $ret = [];
+    foreach ($this->result as $line) {
+      $ret[$line->occurrence_id] = $line->struct;
+    }
+    // If there are duplicate keys, $ret's keys take precedence.
+    $struct = $ret + $struct;
+    return ($struct != $original);
+  }
+
 }

@@ -143,4 +143,12 @@ class Database implements DatabaseInterface {
       ->execute();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function countQueue() : int {
+    $query = $this->connection()->select(self::TABLE, self::TABLE);
+    return $query->countQuery()->execute()->fetchField();
+  }
+
 }

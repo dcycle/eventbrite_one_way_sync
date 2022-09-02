@@ -23,6 +23,7 @@ use Drupal\eventbrite_one_way_sync\WebhookManager\WebhookManagerInterface;
 // utility from there to log errors and give them a UUID.
 use Drupal\webhook_receiver\WebhookReceiverActivityLog\WebhookReceiverActivityLogInterface;
 use Drupal\webhook_receiver\WebhookReceiver;
+use Drupal\webhook_receiver\SelfTest\RequestResponseTest;
 
 /**
  * I like using a trait rather than services arguments which I find messy.
@@ -207,6 +208,16 @@ trait DependencyInjection {
    */
   public function webhookReceiver() : WebhookReceiver {
     return \Drupal::service('webhook_receiver');
+  }
+
+  /**
+   * Get the webhook_receiver request-response test service.
+   *
+   * @return \Drupal\webhook_receiver\SelfTest\RequestResponseTest
+   *   The webhook_receiver request-response test service.
+   */
+  public function webhookReceiverRequestResponseTest() : RequestResponseTest {
+    return \Drupal::service('webhook_receiver.request_response_test');
   }
 
   /**

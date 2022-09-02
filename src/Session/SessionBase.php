@@ -210,7 +210,6 @@ abstract class SessionBase implements SessionInterface {
         'token' => $this->apiKey(),
       ],
     ]);
-    print_r([$full_url, $this->apiKey()]);
     $candidate = Json::decode($response->getBody());
 
     if (!is_array($candidate)) {

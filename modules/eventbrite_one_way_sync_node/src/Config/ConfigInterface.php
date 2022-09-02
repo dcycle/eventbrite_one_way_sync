@@ -41,6 +41,17 @@ interface ConfigInterface {
   public function idField(string $eventbrite_account_label) : string;
 
   /**
+   * Get struct field for a specific eventbrite account.
+   *
+   * @param string $eventbrite_account_label
+   *   An Eventbrite account label such as default.
+   *
+   * @return string
+   *   Struct field.
+   */
+  public function structField(string $eventbrite_account_label) : string;
+
+  /**
    * Throw an exception if the node information is incorrect.
    *
    * @param string $eventbrite_account_label
