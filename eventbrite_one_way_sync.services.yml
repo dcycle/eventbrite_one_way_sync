@@ -30,6 +30,9 @@ services:
   eventbrite_one_way_sync.event_factory:
     class: >-
       Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventFactory
+  eventbrite_one_way_sync.webhook_manager:
+    class: >-
+      Drupal\eventbrite_one_way_sync\WebhookManager\WebhookManager
   plugin.manager.eventbrite_one_way_sync:
     class: Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginManager
     parent: default_plugin_manager

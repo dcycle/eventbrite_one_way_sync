@@ -27,6 +27,16 @@ interface SessionInterface {
   public function importExistingToQueue(int $max = PHP_INT_MAX);
 
   /**
+   * Import event to queue.
+   *
+   * @param string $event_id
+   *   An event id.
+   * @param callable $log
+   *   A log function.
+   */
+  public function importEventToQueue(string $event_id, callable $log);
+
+  /**
    * Run a smoke test on this session, ensuring we have access.
    */
   public function smokeTest();

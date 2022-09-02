@@ -14,6 +14,19 @@ namespace Drupal\webhook_receiver {
   }
 }
 
+namespace Drupal\webhook_receiver\WebhookReceiverLog {
+  interface WebhookReceiverLogInterface {
+    public function debug($x);
+    public function err($x);
+  }
+}
+
+namespace Drupal\webhook_receiver\Payload {
+  interface PayloadInterface {
+    public function toArray();
+  }
+}
+
 namespace Drupal\webhook_receiver\WebhookReceiverActivityLog {
   interface WebhookReceiverActivityLogInterface {
     public function logThrowable($t);

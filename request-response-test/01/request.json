@@ -1,1 +1,10 @@
-{"This must be set!": "It works!!!","no-defer": 1}
+{
+  "api_url": "https://www.example.com/v3/events/1234/",
+  "config": {
+    "action": "event.updated",
+    "endpoint_url": "http://whatever?eventbrite_account_label=selftest",
+    "user_id": "whatever",
+    "webhook_id": "whatever"
+  },
+  "no-defer": true
+}

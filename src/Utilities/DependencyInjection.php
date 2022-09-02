@@ -17,6 +17,8 @@ use Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface;
 use Drupal\eventbrite_one_way_sync\SelfTest\EndToEndTestInterface;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventFactory;
+use Drupal\eventbrite_one_way_sync\WebhookManager\WebhookManagerInterface;
+
 // Webhook Receiver is a dependency of this module, so we'll use this nify
 // utility from there to log errors and give them a UUID.
 use Drupal\webhook_receiver\WebhookReceiverActivityLog\WebhookReceiverActivityLogInterface;
@@ -105,6 +107,16 @@ trait DependencyInjection {
    */
   public function sessionFactory() : SessionFactoryInterface {
     return \Drupal::service('eventbrite_one_way_sync.session_factory');
+  }
+
+  /**
+   * Get the webhook manager service.
+   *
+   * @return \Drupal\eventbrite_one_way_sync\WebhookManager\WebhookManagerInterface
+   *   The webhook manager service.
+   */
+  public function webhookManager() : WebhookManagerInterface {
+    return \Drupal::service('eventbrite_one_way_sync.webhook_manager');
   }
 
   /**

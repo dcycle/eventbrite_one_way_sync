@@ -22,8 +22,12 @@ try {
       print(json_encode(organization_events()));
       break;
 
-    case 'users/me/';
+    case 'users/me/':
       print(json_encode(users_me()));
+      break;
+
+    case 'events/1234/':
+      print(json_encode(event_1234()));
       break;
 
     default:
@@ -138,26 +142,7 @@ function events_page_1() : array {
 
 function events_page_2() : array {
   return [
-    [
-      "name" => [
-        "text" => "My event 4",
-      ],
-      "start" => [
-        "timezone" => "America/Montreal",
-        "local" => "2022-08-30T19:00:00",
-        "utc" => "2022-08-30T23:00:00Z",
-      ],
-      "end" => [
-        "timezone" => "America/Montreal",
-        "local" => "2022-08-30T22:00:00",
-        "utc" => "2022-08-31T02:00:00Z",
-      ],
-      "organization_id" => ORGANIZATION,
-      "status" => "draft",
-      "id" => "1",
-      "is_series" => TRUE,
-      "series_id" => "S1",
-    ]
+    event_1234(),
   ];
 }
 
@@ -178,4 +163,28 @@ function users_me() : array {
     "image_id" => "1234",
   ];
 }
+
+function event_1234() {
+  return [
+    "name" => [
+      "text" => "My event 4",
+    ],
+    "start" => [
+      "timezone" => "America/Montreal",
+      "local" => "2022-08-30T19:00:00",
+      "utc" => "2022-08-30T23:00:00Z",
+    ],
+    "end" => [
+      "timezone" => "America/Montreal",
+      "local" => "2022-08-30T22:00:00",
+      "utc" => "2022-08-31T02:00:00Z",
+    ],
+    "organization_id" => ORGANIZATION,
+    "status" => "draft",
+    "id" => "1234",
+    "is_series" => TRUE,
+    "series_id" => "S1",
+  ];
+}
+
 // @codingStandardsIgnoreEnd
