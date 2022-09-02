@@ -6,6 +6,7 @@
  */
 
 use Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Quick access to the eventbrite_one_way_sync_node service.
@@ -19,4 +20,12 @@ use Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface;
 function eventbrite_one_way_sync_node() : EventbriteOneWaySyncNodeInterface {
 // @codingStandardsIgnoreEnd
   return \Drupal::service('eventbrite_one_way_sync_node');
+}
+
+/**
+ * Implements hook_entity_presave().
+ */
+function eventbrite_one_way_sync_node_entity_presave(EntityInterface $entity) {
+  \Drupal::service('eventbrite_one_way_sync_node.field_mapper')
+    ->hookEntityPresave($entity);
 }

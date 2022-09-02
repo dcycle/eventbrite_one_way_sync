@@ -14,6 +14,8 @@ class EventNode implements EventNodeInterface {
 
   use DependencyInjection;
 
+  const DEFAULT_TITLE = 'Event';
+
   /**
    * The Drupal node.
    *
@@ -45,7 +47,11 @@ class EventNode implements EventNodeInterface {
    * {@inheritdoc}
    */
   public function syncWithEventbriteEvent() : EventNodeInterface {
-    $this->node->setTitle($this->event->getTitle());
+    // We'll map the title and dates later, in
+    // ./modules/eventbrite_one_way_sync_node/src/FieldMapper/FieldMapper.php,
+    // which is called during the entity presave hook. However we need a
+    // fallback title.
+    $this->node->setTitle(self::DEFAULT_TITLE);
     $this->populateStruct();
     return $this;
   }

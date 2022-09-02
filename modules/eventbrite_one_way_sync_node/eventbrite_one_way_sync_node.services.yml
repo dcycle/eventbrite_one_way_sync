@@ -9,3 +9,6 @@ services:
   eventbrite_one_way_sync_node.config:
     class: >-
       Drupal\eventbrite_one_way_sync_node\Config\Config
+  eventbrite_one_way_sync_node.field_mapper:
+    class: >-
+      Drupal\eventbrite_one_way_sync_node\FieldMapper\FieldMapper
