@@ -74,7 +74,7 @@ class EventbriteEventValid extends EventbriteEventInQueue implements EventbriteE
     $original = $struct;
     $ret = [];
     foreach ($this->result as $line) {
-      $ret[$line->occurrence_id] = $line->struct;
+      $ret[$line->occurrence_id] = JSON::decode($line->struct);
     }
     // If there are duplicate keys, $ret's keys take precedence.
     $struct = $ret + $struct;
