@@ -118,6 +118,26 @@ The actual event nodes will be created on cron. To create them run:
 
 You can now visit /admin/content on your Drupal site and see your new events.
 
+Developers: mapping extra fields from Eventbrite events to nodes
+-----
+
+All Events on Drupal represent either a single-date event on Eventbrite, or a collection of events on Eventbrite, all related to a series.
+
+The Drupal nodes contain the eventbrite structs in their struct field, and fields are mapped during the saving of the node. Developers are encouraged to review how fields are currently mapped and create custom modules to map extra fields:
+
+In ./modules/eventbrite_one_way_sync_node/eventbrite_one_way_sync_node.module, hook_entity_presave() is implemented. You will need to implement this hook in your custom module to do custom mapping.
+
+Our mapping code maps:
+
+* The title
+* The event dates
+
+The code is in ./modules/eventbrite_one_way_sync_node/src/FieldMapper/FieldMapper.php; you are encouraged to base your own custom mapping code on the code therein.
+
+If you have existing nodes in the system and you have just implemented new mapping, you can simply resave all nodes like this:
+
+    drush ev "eventbrite_one_way_sync_node()->nodeFactory()->resaveAllNodes('default', max: 10);"
+
 Multiple accounts or organizations
 -----
 

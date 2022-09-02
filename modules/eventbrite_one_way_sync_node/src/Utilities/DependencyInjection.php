@@ -6,6 +6,7 @@ use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection as BaseDependen
 use Drupal\eventbrite_one_way_sync_node\EventNode\NodeFactoryInterface;
 use Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface;
 use Drupal\eventbrite_one_way_sync_node\Config\ConfigInterface;
+use Drupal\eventbrite_one_way_sync_node\FieldMapper\FieldMapperInterface;
 
 /**
  * I like using a trait rather than services arguments which I find messy.
@@ -32,6 +33,16 @@ trait DependencyInjection {
    */
   public function nodeConfig() : ConfigInterface {
     return \Drupal::service('eventbrite_one_way_sync_node.config');
+  }
+
+  /**
+   * Get a field-mapping service.
+   *
+   * @return \Drupal\eventbrite_one_way_sync_node\FieldMapper\FieldMapperInterface
+   *   The field-mapping service.
+   */
+  public function fieldMapper() : FieldMapperInterface {
+    return \Drupal::service('eventbrite_one_way_sync_node.field_mapper');
   }
 
   /**

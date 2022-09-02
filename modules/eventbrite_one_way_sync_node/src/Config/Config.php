@@ -79,6 +79,13 @@ class Config extends BaseConfig implements ConfigInterface {
   /**
    * {@inheritdoc}
    */
+  public function dateField(string $eventbrite_account_label) : string {
+    return $this->fieldMapItem($eventbrite_account_label, 'date_field');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function structField(string $eventbrite_account_label) : string {
     return $this->fieldMapItem($eventbrite_account_label, 'struct_field');
   }

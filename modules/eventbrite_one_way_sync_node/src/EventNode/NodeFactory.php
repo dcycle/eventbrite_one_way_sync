@@ -6,6 +6,8 @@ use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface
 use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
 use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
 use Drupal\node\NodeInterface;
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Obtain node objects.
@@ -14,6 +16,56 @@ class NodeFactory implements NodeFactoryInterface {
 
   use DependencyInjection;
   use CommonUtilities;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function entityToNodeAndStruct(EntityInterface $entity, array &$struct, string &$eventbrite_account_label) : NodeInterface|null {
+    if ($entity->getEntityType()->id() != 'node') {
+      return NULL;
+    }
+
+    // At this point we have a node. Just make sure.
+    if ($entity instanceof NodeInterface) {
+      foreach ($this->nodeConfig()->getFieldMapping() as $account_label => $info) {
+        if ($entity->getType() == $info['node_type']) {
+          $field_values = $entity->get($info['id_field'])->getValue();
+
+          if (isset($field_values[0]['value']) && substr($field_values[0]['value'], 0, strlen($account_label . ':')) == $account_label . ':') {
+            // We have a hit.
+            $eventbrite_account_label = $account_label;
+            $struct = $this->nodeStruct($entity, $info['struct_field']);
+            return $entity;
+          }
+        }
+      }
+    }
+
+    // This entity is not an Eventbrite node.
+    return NULL;
+  }
+
+  /**
+   * Given a node and field, return a struct.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   A node.
+   * @param string $field_name
+   *   A field name.
+   *
+   * @return array
+   *   A struct.
+   */
+  public function nodeStruct(NodeInterface $node, string $field_name) : array {
+    $field_values = $node->get($field_name)->getValue();
+    $ret = [];
+
+    if (isset($field_values[0]['value'])) {
+      $ret = Json::decode($field_values[0]['value']);
+    }
+
+    return is_array($ret) ? $ret : [];
+  }
 
   /**
    * {@inheritdoc}
@@ -36,7 +88,27 @@ class NodeFactory implements NodeFactoryInterface {
   /**
    * {@inheritdoc}
    */
-  public function deleteAllNodes(string $eventbrite_account_label, int $max = PHP_INT_MAX) {
+  public function resaveAllNodes(string $eventbrite_account_label, int $max = PHP_INT_MAX) {
+    $nids = $this->getAllNids($eventbrite_account_label, $max);
+
+    print_r('We found ' . count($nids) . ' nids' . PHP_EOL);
+
+    $nodes = $this->entityTypeManager()->getStorage('node')->loadMultiple($nids);
+
+    foreach ($nodes as $node) {
+      $node->save();
+    }
+  }
+
+  /**
+   * Get all nids the related to an Eventbrite account.
+   *
+   * @param string $eventbrite_account_label
+   *   An Eventbrite account label, for example "default".
+   * @param int $max
+   *   The maximum number of nodes to save. Useful for testing.
+   */
+  public function getAllNids(string $eventbrite_account_label, int $max = PHP_INT_MAX) : array {
     $this->assertNonEmptyString($eventbrite_account_label, 'Eventbrite account label cannot be empty');
 
     $node_type = $this->nodeConfig()->nodeType($eventbrite_account_label);
@@ -51,7 +123,14 @@ class NodeFactory implements NodeFactoryInterface {
     $query->condition($id_field, $like, 'LIKE');
     $query->range(0, $max);
 
-    $nids = $query->execute();
+    return $query->execute();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function deleteAllNodes(string $eventbrite_account_label, int $max = PHP_INT_MAX) {
+    $nids = $this->getAllNids($eventbrite_account_label, $max);
 
     print_r('We found ' . count($nids) . ' nids' . PHP_EOL);
 
@@ -59,7 +138,7 @@ class NodeFactory implements NodeFactoryInterface {
 
     $this->entityTypeManager()->getStorage('node')->delete($nodes);
 
-    print_r('We have deleted these ' . count($nids) . ' nodes with ' . $id_field . ' LIKE ' . $like . ':' . PHP_EOL);
+    print_r('We have deleted these ' . count($nids) . ' nodes:' . PHP_EOL);
     print_r($nids);
   }
 
