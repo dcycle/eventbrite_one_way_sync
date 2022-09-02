@@ -31,5 +31,4 @@ interface NodeFactoryInterface {
    */
   public function deleteAllNodes(string $eventbrite_account_label, int $max = PHP_INT_MAX);
 
-
 }
