@@ -28,26 +28,30 @@ Step 1: make sure you have an Eventbrite account, website, and token
 Step 2: configure this module to use your Eventbrite token
 -----
 
-* Edit your site's ./sites/default/settings.php and add the following (this is not meant to be in version control; see also the "security" section, below):
+Edit your site's ./sites/default/settings.php and add the following (this is not meant to be in version control; see also the "security" section, below):
 
-    $config['eventbrite_one_way_sync.unversioned']['api-keys'] = [
-      'default' => [
-        'private_token' => 'PUT_YOUR_PRIVATE_TOKEN_HERE',
-        'organization_id' => '123456789',
-      ],
-    ];
+```
+$config['eventbrite_one_way_sync.unversioned']['api-keys'] = [
+  'default' => [
+    'private_token' => 'PUT_YOUR_PRIVATE_TOKEN_HERE',
+    'organization_id' => '123456789',
+  ],
+];
+```
 
 Step 3: tell this module which node type and fields to use
 -----
 
 * Create a node type, or use an existing node type (for example "event") with at least these fields:
   * A Text (plain) field (for example "field_eventbrite_id") to store the eventbrite event ID.
-  * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct.
+  * A Text (plain, long) field (for example "field_eventbrite_struct") to store the eventbrite struct. **You should hide this field from the frontend.**
   * A **multi-value** Date Range field (for example "field_eventbrite_date") to store the eventbrite dates.
 
-* Tell Drupal what your node type and fields are (this changes the configuration of the module and can be exported to code as any configuration can):
+Tell Drupal what your node type and fields are (this changes the configuration of the module and can be exported to code as any configuration can):
 
-    drush ev "eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');"
+```
+drush ev "eventbrite_one_way_sync_node()->nodeConfig()->setNodeTypeAndFields('default', 'event', 'field_eventbrite_id', 'field_eventbrite_struct', 'field_eventbrite_date');"
+```
 
 Step 4: smoke-test the installation
 -----
@@ -180,3 +184,5 @@ Option 2: store your private token in a text file, as suggested by the comments 
         'organization_id' => '123456789',
       ],
     ];
+
+The field you choose to locally store the struct of your events on Eventbrite (field_eventbrite_struct in the example above) should be hidden from the frontend, for example in /admin/structure/types/manage/event/display.

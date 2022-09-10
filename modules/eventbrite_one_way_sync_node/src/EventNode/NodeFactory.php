@@ -119,6 +119,7 @@ class NodeFactory implements NodeFactoryInterface {
     print_r('We will attempt to load a maximum of ' . PHP_INT_MAX . ' nodes with ' . $id_field . ' LIKE ' . $like . ':' . PHP_EOL);
 
     $query = $this->drupalEntityQuery('node');
+    $query->accessCheck(FALSE);
     $query->condition('type', $node_type);
     $query->condition($id_field, $like, 'LIKE');
     $query->range(0, $max);
@@ -161,6 +162,7 @@ class NodeFactory implements NodeFactoryInterface {
     $this->assertNonEmptyString($remoteId, 'Remote ID cannot be empty');
 
     $query = $this->drupalEntityQuery('node');
+    $query->accessCheck(FALSE);
     $query->condition('type', $node_type);
     $query->condition($id_field, $remoteId);
     // We want there to be 0 or 1, but if we get 2 we'll fail.

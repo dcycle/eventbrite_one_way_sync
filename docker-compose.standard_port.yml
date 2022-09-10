@@ -5,6 +5,6 @@
 version: '2'
 
 services:
-  drupal:
+  webserver:
     ports:
       - "80:80"
