@@ -40,7 +40,7 @@ class EventbriteOneWaySyncPluginCollection implements EventbriteOneWaySyncPlugin
   /**
    * {@inheritdoc}
    */
-  public function count() {
+  public function count() : int {
     return count($this->pluginDefinitions());
   }
 
