@@ -142,6 +142,8 @@ If you have existing nodes in the system and you have just implemented new mappi
 
     drush ev "eventbrite_one_way_sync_node()->nodeFactory()->resaveAllNodes('default', max: 10);"
 
+See the "Sample extra mapping" section below.
+
 Multiple accounts or organizations
 -----
 
@@ -163,6 +165,88 @@ If you have multiple accounts or organizations, you can name each in your settin
     ];
 
 Then, any time you see "default" in the instructions above, use, instead, "another_organization" or "my_brothers_account".
+
+Time zones
+-----
+
+This module maps the UTC time. To manage time zones, you will need to map a custom timezone field in your module.
+
+See the "Sample extra mapping" section below.
+
+Sample extra mapping
+-----
+
+Here is what your custom code might look like to map the organizer ID and timezone, if you first make sure that the fields `field_eventbrite_organizer_id` and `field_eventbrite_timezone` exist for your content type.
+
+    <?php
+
+    namespace Drupal\my_custom_module\EventbriteFieldMapper;
+
+    use Drupal\eventbrite_one_way_sync_node\FieldMapper\FieldMapperInterface;
+    use Drupal\Core\Entity\EntityInterface;
+    use Drupal\node\NodeInterface;
+    use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
+
+    /**
+     * Maps field on node save.
+     */
+    class EventbriteFieldMapper implements FieldMapperInterface {
+
+      use DependencyInjection;
+
+      /**
+      * {@inheritdoc}
+      */
+      public function hookEntityPresave(EntityInterface $entity) {
+        try {
+          $struct = [];
+          $eventbrite_account_label = '';
+
+          if ($node = $this->nodeFactory()->entityToNodeAndStruct($entity, $struct, $eventbrite_account_label)) {
+            // At this point the node is a valid node, we can now do our mapping.
+            $this->mapOrganizerId($node, $struct, $eventbrite_account_label);
+            $this->mapTimezone($node, $struct);
+          }
+        }
+        catch (\Throwable $t) {
+          // In case of any exception, do not completely break the workflow.
+          $this->errorLogger()->logThrowable($t);
+        }
+      }
+
+      /**
+      * Map the organizer ID.
+      *
+      * @param \Drupal\node\NodeInterface $node
+      *   A node.
+      * @param array $struct
+      *   An eventbrite struct.
+      * @param string $eventbrite_account_label
+      *   The Eventbrite account label.
+      */
+      public function mapOrganizerId(NodeInterface $node, array $struct, string $eventbrite_account_label) {
+        $first = array_shift($struct);
+        if (!empty($first['organizer_id'])) {
+          $node->set('field_eventbrite_organizer_id', $first['organizer_id']);
+        }
+      }
+
+      /**
+      * Map the timezone.
+      *
+      * @param \Drupal\node\NodeInterface $node
+      *   A node.
+      * @param array $struct
+      *   An eventbrite struct.
+      */
+      public function mapTimezone(NodeInterface $node, array $struct) {
+        $first = array_shift($struct);
+        if (!empty($first['start']['timezone'])) {
+          $node->set('field_eventbrite_timezone', $first['start']['timezone']);
+        }
+      }
+
+    }
 
 Security
 -----
