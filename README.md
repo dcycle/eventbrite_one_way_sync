@@ -140,7 +140,7 @@ The code is in ./modules/eventbrite_one_way_sync_node/src/FieldMapper/FieldMappe
 
 If you have existing nodes in the system and you have just implemented new mapping, you can simply resave all nodes like this:
 
-    drush ev "eventbrite_one_way_sync_node()->nodeFactory()->resaveAllNodes('default', max: 10);"
+    drush entity:save node --bundle=event
 
 See the "Sample extra mapping" section below.
 
