@@ -2,10 +2,10 @@
 
 namespace Drupal\eventbrite_one_way_sync_node\Plugin\EventbriteOneWaySyncPlugin;
 
-use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
 use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
-use Drupal\eventbrite_one_way_sync\SelfTest\SelfTestLogTrait;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginBase;
+use Drupal\eventbrite_one_way_sync\SelfTest\SelfTestLogTrait;
+use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
 
 /**
  * Sync Eventbrite events to nodes.

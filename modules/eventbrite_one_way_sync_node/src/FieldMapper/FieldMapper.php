@@ -2,8 +2,8 @@
 
 namespace Drupal\eventbrite_one_way_sync_node\FieldMapper;
 
-use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
 use Drupal\node\NodeInterface;
 
 /**

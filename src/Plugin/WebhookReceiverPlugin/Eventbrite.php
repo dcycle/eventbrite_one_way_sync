@@ -2,11 +2,10 @@
 
 namespace Drupal\eventbrite_one_way_sync\Plugin\WebhookReceiverPlugin;
 
-use Drupal\webhook_receiver\WebhookReceiverPluginBase;
-use Drupal\webhook_receiver\WebhookReceiverLog\WebhookReceiverLogInterface;
-use Drupal\webhook_receiver\Payload\PayloadInterface;
-
 use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
+use Drupal\webhook_receiver\Payload\PayloadInterface;
+use Drupal\webhook_receiver\WebhookReceiverLog\WebhookReceiverLogInterface;
+use Drupal\webhook_receiver\WebhookReceiverPluginBase;
 
 /**
  * Manages Eventbrite webhooks.

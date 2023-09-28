@@ -2,10 +2,10 @@
 
 namespace Drupal\eventbrite_one_way_sync\Session;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
 use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 use GuzzleHttp\Client;
-use Drupal\Component\Serialization\Json;
 
 /**
  * A session is associated with a single key.

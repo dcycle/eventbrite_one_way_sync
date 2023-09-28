@@ -5,8 +5,8 @@
  * Runtime hooks.
  */
 
-use Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface;
 
 /**
  * Quick access to the eventbrite_one_way_sync_node service.

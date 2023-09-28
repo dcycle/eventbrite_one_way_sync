@@ -2,12 +2,12 @@
 
 namespace Drupal\eventbrite_one_way_sync_node\EventNode;
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
 use Drupal\eventbrite_one_way_sync_node\Utilities\DependencyInjection;
 use Drupal\node\NodeInterface;
-use Drupal\Component\Serialization\Json;
-use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Obtain node objects.

@@ -2,9 +2,9 @@
 
 namespace Drupal\eventbrite_one_way_sync\Database;
 
-use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 use Drupal\Component\Serialization\Json;
 use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventInterface;
+use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 
 /**
  * Represents this module's database.

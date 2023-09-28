@@ -2,9 +2,9 @@
 
 namespace Drupal\eventbrite_one_way_sync_node\EventNode;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 use Drupal\node\NodeInterface;
-use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Obtain node objects.

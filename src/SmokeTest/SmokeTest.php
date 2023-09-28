@@ -3,8 +3,8 @@
 namespace Drupal\eventbrite_one_way_sync\SmokeTest;
 
 use Drupal\eventbrite_one_way_sync\SelfTest\SelfTestLogTrait;
-use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
+use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 
 /**
  * Makes sure your configuration works.
