@@ -2,28 +2,27 @@
 
 namespace Drupal\eventbrite_one_way_sync\Utilities;
 
-use Drupal\eventbrite_one_way_sync\Config\ConfigInterface;
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\EntityFieldManagerInterface;
-use Drupal\eventbrite_one_way_sync\SmokeTest\SmokeTestInterface;
-use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncInterface;
-use Drupal\eventbrite_one_way_sync\Processor\ProcessorFactoryInterface;
-use Drupal\eventbrite_one_way_sync\Database\DatabaseInterface;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\eventbrite_one_way_sync\Config\ConfigInterface;
+use Drupal\eventbrite_one_way_sync\Database\DatabaseInterface;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventFactory;
+use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncInterface;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginCollection;
 use Drupal\eventbrite_one_way_sync\EventbriteOneWaySyncPluginManager;
-use Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface;
+use Drupal\eventbrite_one_way_sync\Processor\ProcessorFactoryInterface;
 use Drupal\eventbrite_one_way_sync\SelfTest\EndToEndTestInterface;
-use Drupal\Component\Datetime\TimeInterface;
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventFactory;
+use Drupal\eventbrite_one_way_sync\Session\SessionFactoryInterface;
+use Drupal\eventbrite_one_way_sync\SmokeTest\SmokeTestInterface;
 use Drupal\eventbrite_one_way_sync\WebhookManager\WebhookManagerInterface;
-
+use Drupal\webhook_receiver\SelfTest\RequestResponseTest;
+use Drupal\webhook_receiver\WebhookReceiver;
 // Webhook Receiver is a dependency of this module, so we'll use this nify
 // utility from there to log errors and give them a UUID.
 use Drupal\webhook_receiver\WebhookReceiverActivityLog\WebhookReceiverActivityLogInterface;
-use Drupal\webhook_receiver\WebhookReceiver;
-use Drupal\webhook_receiver\SelfTest\RequestResponseTest;
 
 /**
  * I like using a trait rather than services arguments which I find messy.

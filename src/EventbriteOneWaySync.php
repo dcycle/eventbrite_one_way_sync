@@ -2,8 +2,8 @@
 
 namespace Drupal\eventbrite_one_way_sync;
 
-use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 use Drupal\eventbrite_one_way_sync\Session\SessionInterface;
+use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 
 /**
  * Module singleton. Use \Drupal::service('eventbrite_one_way_sync').

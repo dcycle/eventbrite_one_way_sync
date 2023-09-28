@@ -2,9 +2,9 @@
 
 namespace Drupal\eventbrite_one_way_sync\EventbriteEvent;
 
-use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
-use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
 use Drupal\eventbrite_one_way_sync\RemoteId\RemoteIdInterface;
+use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
+use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 
 /**
  * An event in the queue.

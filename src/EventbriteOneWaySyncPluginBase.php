@@ -2,8 +2,8 @@
 
 namespace Drupal\eventbrite_one_way_sync;
 
-use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\eventbrite_one_way_sync\EventbriteEvent\EventbriteEventValidInterface;
 
 /**
  * A base class to help developers implement EventbriteOneWaySyncPlugin objects.

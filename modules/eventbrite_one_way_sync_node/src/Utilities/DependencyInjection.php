@@ -3,9 +3,9 @@
 namespace Drupal\eventbrite_one_way_sync_node\Utilities;
 
 use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection as BaseDependencyInjection;
-use Drupal\eventbrite_one_way_sync_node\EventNode\NodeFactoryInterface;
-use Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface;
 use Drupal\eventbrite_one_way_sync_node\Config\ConfigInterface;
+use Drupal\eventbrite_one_way_sync_node\EventbriteOneWaySyncNodeInterface;
+use Drupal\eventbrite_one_way_sync_node\EventNode\NodeFactoryInterface;
 use Drupal\eventbrite_one_way_sync_node\FieldMapper\FieldMapperInterface;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace Drupal\eventbrite_one_way_sync\Requirements;
 
-use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
 
 /**
  * Check requirements and provide status for this module.

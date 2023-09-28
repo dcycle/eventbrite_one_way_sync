@@ -2,9 +2,9 @@
 
 namespace Drupal\eventbrite_one_way_sync\Config;
 
-use Drupal\eventbrite_one_way_sync\Utilities\Singleton;
 use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
 use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
+use Drupal\eventbrite_one_way_sync\Utilities\Singleton;
 
 /**
  * Wrapper around configuration.

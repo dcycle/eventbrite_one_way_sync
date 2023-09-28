@@ -2,9 +2,9 @@
 
 namespace Drupal\eventbrite_one_way_sync_node\Config;
 
-use Drupal\eventbrite_one_way_sync\Utilities\Singleton;
-use Drupal\eventbrite_one_way_sync\Config\Config as BaseConfig;
 use Drupal\Component\Serialization\Json;
+use Drupal\eventbrite_one_way_sync\Config\Config as BaseConfig;
+use Drupal\eventbrite_one_way_sync\Utilities\Singleton;
 
 /**
  * Wrapper around configuration.

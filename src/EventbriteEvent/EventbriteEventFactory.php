@@ -2,10 +2,10 @@
 
 namespace Drupal\eventbrite_one_way_sync\EventbriteEvent;
 
+use Drupal\eventbrite_one_way_sync\RemoteId\RemoteId;
+use Drupal\eventbrite_one_way_sync\RemoteId\RemoteIdInterface;
 use Drupal\eventbrite_one_way_sync\Utilities\CommonUtilities;
 use Drupal\eventbrite_one_way_sync\Utilities\DependencyInjection;
-use Drupal\eventbrite_one_way_sync\RemoteId\RemoteIdInterface;
-use Drupal\eventbrite_one_way_sync\RemoteId\RemoteId;
 
 /**
  * Get eventbrite events.
